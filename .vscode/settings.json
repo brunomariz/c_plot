@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "math.h": "c",
+        "sdl.h": "c",
+        "c_trees.h": "c",
+        "game_loop.h": "c",
+        "type_utils.h": "c"
+    }
+}
