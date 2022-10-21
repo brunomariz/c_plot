@@ -7,9 +7,6 @@
 #include "../inc/game_loop.h"
 #include "../inc/render.h"
 
-#define WINDOW_WIDTH (640)
-#define WINDOW_HEIGHT (480)
-
 int event_handler(SDL_Event event);
 
 int main(void)
