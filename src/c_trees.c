@@ -75,6 +75,7 @@ void draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int start,
                                  float section_low, float section_high)
 {
     int num_children = get_num_children(tree, start);
+
     // Calculate node position
     float theta = (section_high - section_low) / 2 + section_low;
     int r = vertical_level * 40;
@@ -101,6 +102,11 @@ void draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int start,
                 float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
                 // Draw child
                 draw_tree_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
+                // Calculate child node position
+                float child_theta = (child_section_high - child_section_low) / 2 + child_section_low;
+                int child_r = r + 40;
+                // Draw connector to child
+                draw_line_polar(renderer, theta, r, child_theta, child_r, (RGBA){255, 255, 255, 255});
 
                 // Increment horizontal level
                 child_horizontal_level++;

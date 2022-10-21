@@ -22,4 +22,11 @@ typedef struct tree
     int num_states;
     int num_connections;
 } Tree;
+
+typedef struct polar_coord
+{
+    float theta;
+    int r;
+} PolarCoord;
+
 #endif
