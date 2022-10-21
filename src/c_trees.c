@@ -70,9 +70,9 @@ void draw_node_polar(SDL_Renderer *renderer, float theta, int r)
     draw_circumference_polar(renderer, theta, r, 5, (RGBA){255, 255, 255, 255});
 }
 
-void draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int start,
-                                 int vertical_level,
-                                 float section_low, float section_high)
+PolarCoord draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int start,
+                                       int vertical_level,
+                                       float section_low, float section_high)
 {
     int num_children = get_num_children(tree, start);
 
@@ -101,12 +101,9 @@ void draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int start,
                 float child_section_low = section_low + (section_high - section_low) / num_children * child_horizontal_level;
                 float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
                 // Draw child
-                draw_tree_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
-                // Calculate child node position
-                float child_theta = (child_section_high - child_section_low) / 2 + child_section_low;
-                int child_r = r + 40;
+                PolarCoord child_coord = draw_tree_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
                 // Draw connector to child
-                draw_line_polar(renderer, theta, r, child_theta, child_r, (RGBA){255, 255, 255, 255});
+                draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (RGBA){255, 255, 255, 255});
 
                 // Increment horizontal level
                 child_horizontal_level++;
@@ -116,6 +113,7 @@ void draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int start,
             }
         }
     }
+    return (PolarCoord){theta, r};
 }
 
 int get_num_children(Tree tree, int id)
