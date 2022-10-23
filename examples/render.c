@@ -1,4 +1,4 @@
-#include "../inc/render.h"
+#include "render.h"
 
 #include <stdio.h>
 #include <math.h>
@@ -86,6 +86,7 @@ void render(SDL_Renderer *renderer)
     State state6 = {6};
     State state7 = {7};
     State state8 = {8};
+    State state9 = {9};
     State states[8] = {
         state1,
         state2,
@@ -95,8 +96,9 @@ void render(SDL_Renderer *renderer)
         state6,
         state7,
         state8,
+        state9,
     };
-    int adjacency_list[7][2] = {
+    int adjacency_list[8][2] = {
         {1, 2},
         {1, 3},
         {1, 4},
@@ -104,8 +106,9 @@ void render(SDL_Renderer *renderer)
         {2, 6},
         {3, 7},
         {3, 8},
+        {8, 9},
     };
-    Tree tree = {states, adjacency_list, 7, 8};
+    Tree tree = {states, adjacency_list, 8, 9};
     render_tree(renderer, tree);
 
     // Mock render tree, doesnt really depend on input

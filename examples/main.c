@@ -5,7 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include "../inc/c_trees.h"
 #include "../inc/game_loop.h"
-#include "../inc/render.h"
+#include "render.h"
 
 int event_handler(SDL_Event event);
 

@@ -22,7 +22,7 @@ void game_loop(SDL_Renderer *renderer, void callback(SDL_Renderer *renderer), vo
 
         // wait 1/60th of a second
         // SDL_Delay(1000 / 60);
-        printf("%d\n", 1000 / (1000 / 60));
-        fflush(stdout);
+        // printf("%d\n", 1000 / (1000 / 60));
+        // fflush(stdout);
     }
 }
