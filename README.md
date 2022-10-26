@@ -2,6 +2,8 @@
 
 Biblioteca em C para desenho de árvores.
 
+![example image of tree drawn on polar coordinates grid](img/tree.png)
+
 Documentação do SDL: http://wiki.libsdl.org/CategoryInit
 Tutorial de SDL (com preparação): https://www.youtube.com/watch?v=yFLa3ln16w0&ab_channel=CS50
 
