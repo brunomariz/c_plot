@@ -28,22 +28,22 @@ void render_polar_axis(SDL_Renderer *renderer)
     SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
     int thick_border = 0;
 
-    int center_x = WINDOW_WIDTH / 2;
-    int center_y = WINDOW_HEIGHT / 2;
+    int center_x = CT_WINDOW_WIDTH / 2;
+    int center_y = CT_WINDOW_HEIGHT / 2;
     for (int i = 40; i < 440; i += 40)
     {
-        c_trees_draw_circumference(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, i, (RGBA){100, 100, 100, 255}, thick_border);
+        c_trees_draw_circumference(renderer, CT_WINDOW_WIDTH / 2, CT_WINDOW_HEIGHT / 2, i, (RGBA){100, 100, 100, 255}, thick_border);
     }
 
     for (float theta = 0; theta < 2 * 3.14159265358979323846; theta += 3.14159265358979323846 / 20)
     {
-        int dest_x = (int)(cos(theta) * WINDOW_WIDTH + WINDOW_WIDTH / 2);
-        int dest_y = (int)(sin(theta) * WINDOW_HEIGHT + WINDOW_HEIGHT / 2);
+        int dest_x = (int)(cos(theta) * CT_WINDOW_WIDTH + CT_WINDOW_WIDTH / 2);
+        int dest_y = (int)(sin(theta) * CT_WINDOW_HEIGHT + CT_WINDOW_HEIGHT / 2);
 
         SDL_RenderDrawLine(renderer, center_x, center_y, dest_x, dest_y);
     }
-    SDL_RenderDrawLine(renderer, WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 2, WINDOW_HEIGHT);
-    SDL_RenderDrawLine(renderer, 0, WINDOW_HEIGHT / 2, WINDOW_WIDTH, WINDOW_HEIGHT / 2);
+    SDL_RenderDrawLine(renderer, CT_WINDOW_WIDTH / 2, 0, CT_WINDOW_WIDTH / 2, CT_WINDOW_HEIGHT);
+    SDL_RenderDrawLine(renderer, 0, CT_WINDOW_HEIGHT / 2, CT_WINDOW_WIDTH, CT_WINDOW_HEIGHT / 2);
 }
 
 void render_exemple_tree(SDL_Renderer *renderer)
@@ -123,7 +123,7 @@ void render(SDL_Renderer *renderer)
     //         {
     //             int dest_x = (int)(cos(theta) * r);
     //             int dest_y = (int)(sin(theta) * r);
-    //             c_trees_draw_circumference(renderer, dest_x + WINDOW_WIDTH / 2, dest_y + WINDOW_HEIGHT / 2, 15, (RGBA){255, 0, 0, 255});
+    //             c_trees_draw_circumference(renderer, dest_x + CT_WINDOW_WIDTH / 2, dest_y + CT_WINDOW_HEIGHT / 2, 15, (RGBA){255, 0, 0, 255});
     //         }
     //     }
     // }

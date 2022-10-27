@@ -3,9 +3,10 @@
 
 #include "../inc/type_utils.h"
 
-#define WINDOW_WIDTH (640)
-#define WINDOW_HEIGHT (480)
+#define CT_WINDOW_WIDTH (640)
+#define CT_WINDOW_HEIGHT (480)
 
+// ===Drawing===
 void c_trees_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, RGBA color, int thick_border);
 void c_trees_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, RGBA color);
 void c_trees_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, RGBA color);

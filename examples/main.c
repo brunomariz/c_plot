@@ -21,7 +21,7 @@ int main(void)
     SDL_Window *win = SDL_CreateWindow("C_TREES",
                                        SDL_WINDOWPOS_CENTERED,
                                        SDL_WINDOWPOS_CENTERED,
-                                       WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+                                       CT_WINDOW_WIDTH, CT_WINDOW_HEIGHT, 0);
     if (!win)
     {
         printf("error creating window: %s\n", SDL_GetError());

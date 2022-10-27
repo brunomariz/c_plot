@@ -52,15 +52,15 @@ void c_trees_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r
     int dest_x = (int)(cos(theta) * r);
     int dest_y = -(int)(sin(theta) * r);
     int thick_border = 1;
-    c_trees_draw_circumference(renderer, dest_x + WINDOW_WIDTH / 2, dest_y + WINDOW_HEIGHT / 2, R, color, thick_border);
+    c_trees_draw_circumference(renderer, dest_x + CT_WINDOW_WIDTH / 2, dest_y + CT_WINDOW_HEIGHT / 2, R, color, thick_border);
 }
 
 void c_trees_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, RGBA color)
 {
-    int orig_x = (int)(cos(theta_orig) * r_orig) + WINDOW_WIDTH / 2;
-    int orig_y = -(int)(sin(theta_orig) * r_orig) + WINDOW_HEIGHT / 2;
-    int dest_x = (int)(cos(theta_dest) * r_dest) + WINDOW_WIDTH / 2;
-    int dest_y = -(int)(sin(theta_dest) * r_dest) + WINDOW_HEIGHT / 2;
+    int orig_x = (int)(cos(theta_orig) * r_orig) + CT_WINDOW_WIDTH / 2;
+    int orig_y = -(int)(sin(theta_orig) * r_orig) + CT_WINDOW_HEIGHT / 2;
+    int dest_x = (int)(cos(theta_dest) * r_dest) + CT_WINDOW_WIDTH / 2;
+    int dest_y = -(int)(sin(theta_dest) * r_dest) + CT_WINDOW_HEIGHT / 2;
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderDrawLine(renderer, orig_x, orig_y, dest_x, dest_y);
 }
