@@ -87,7 +87,7 @@ void render(SDL_Renderer *renderer)
     State state7 = {7};
     State state8 = {8};
     State state9 = {9};
-    State states[8] = {
+    State states[9] = {
         state1,
         state2,
         state3,
@@ -108,7 +108,7 @@ void render(SDL_Renderer *renderer)
         {3, 8},
         {8, 9},
     };
-    Tree tree = {states, adjacency_list, 8, 9};
+    Tree tree = {states, (int *)adjacency_list, 9, 8};
     render_tree(renderer, tree);
 
     // Mock render tree, doesnt really depend on input
