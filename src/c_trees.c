@@ -11,7 +11,7 @@
 
 int get_num_children(Tree tree, int id);
 
-void draw_circumference(SDL_Renderer *renderer, int x, int y, int r, RGBA color, int thick_border)
+void c_trees_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, RGBA color, int thick_border)
 {
     SDL_RenderDrawPoint(renderer, x, y);
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -47,15 +47,15 @@ void draw_circumference(SDL_Renderer *renderer, int x, int y, int r, RGBA color,
     }
 }
 
-void draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, RGBA color)
+void c_trees_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, RGBA color)
 {
     int dest_x = (int)(cos(theta) * r);
     int dest_y = -(int)(sin(theta) * r);
     int thick_border = 1;
-    draw_circumference(renderer, dest_x + WINDOW_WIDTH / 2, dest_y + WINDOW_HEIGHT / 2, R, color, thick_border);
+    c_trees_draw_circumference(renderer, dest_x + WINDOW_WIDTH / 2, dest_y + WINDOW_HEIGHT / 2, R, color, thick_border);
 }
 
-void draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, RGBA color)
+void c_trees_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, RGBA color)
 {
     int orig_x = (int)(cos(theta_orig) * r_orig) + WINDOW_WIDTH / 2;
     int orig_y = -(int)(sin(theta_orig) * r_orig) + WINDOW_HEIGHT / 2;
@@ -65,14 +65,14 @@ void draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float
     SDL_RenderDrawLine(renderer, orig_x, orig_y, dest_x, dest_y);
 }
 
-void draw_node_polar(SDL_Renderer *renderer, float theta, int r)
+void c_trees_draw_node_polar(SDL_Renderer *renderer, float theta, int r)
 {
-    draw_circumference_polar(renderer, theta, r, 5, (RGBA){255, 255, 255, 255});
+    c_trees_draw_circumference_polar(renderer, theta, r, 5, (RGBA){255, 255, 255, 255});
 }
 
-PolarCoord draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int start,
-                                       int vertical_level,
-                                       float section_low, float section_high)
+PolarCoord c_trees_draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int start,
+                                               int vertical_level,
+                                               float section_low, float section_high)
 {
     int num_children = get_num_children(tree, start);
 
@@ -83,7 +83,7 @@ PolarCoord draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int st
     if (num_children < 1)
     {
         // Draw node
-        draw_node_polar(renderer, theta, r);
+        c_trees_draw_node_polar(renderer, theta, r);
     }
     else
     {
@@ -101,15 +101,15 @@ PolarCoord draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int st
                 float child_section_low = section_low + (section_high - section_low) / num_children * child_horizontal_level;
                 float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
                 // Draw child
-                PolarCoord child_coord = draw_tree_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
+                PolarCoord child_coord = c_trees_draw_tree_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
                 // Draw connector to child
-                draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (RGBA){255, 255, 255, 255});
+                c_trees_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (RGBA){255, 255, 255, 255});
 
                 // Increment horizontal level
                 child_horizontal_level++;
 
                 // Draw parent
-                draw_node_polar(renderer, theta, r);
+                c_trees_draw_node_polar(renderer, theta, r);
             }
         }
     }

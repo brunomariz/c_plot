@@ -16,11 +16,11 @@ void render_circles(SDL_Renderer *renderer)
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     int thick_border = 1;
-    draw_circumference(renderer, 50, 50, 100, white, thick_border);
-    draw_circumference(renderer, 200, 200, 50, white, thick_border);
-    draw_circumference(renderer, 300, 400, 20, white, thick_border);
-    draw_circumference(renderer, 400, 50, 10, white, thick_border);
-    draw_circumference(renderer, 500, 10, 20, white, thick_border);
+    c_trees_draw_circumference(renderer, 50, 50, 100, white, thick_border);
+    c_trees_draw_circumference(renderer, 200, 200, 50, white, thick_border);
+    c_trees_draw_circumference(renderer, 300, 400, 20, white, thick_border);
+    c_trees_draw_circumference(renderer, 400, 50, 10, white, thick_border);
+    c_trees_draw_circumference(renderer, 500, 10, 20, white, thick_border);
 }
 
 void render_polar_axis(SDL_Renderer *renderer)
@@ -32,7 +32,7 @@ void render_polar_axis(SDL_Renderer *renderer)
     int center_y = WINDOW_HEIGHT / 2;
     for (int i = 40; i < 440; i += 40)
     {
-        draw_circumference(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, i, (RGBA){100, 100, 100, 255}, thick_border);
+        c_trees_draw_circumference(renderer, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, i, (RGBA){100, 100, 100, 255}, thick_border);
     }
 
     for (float theta = 0; theta < 2 * 3.14159265358979323846; theta += 3.14159265358979323846 / 20)
@@ -53,21 +53,21 @@ void render_exemple_tree(SDL_Renderer *renderer)
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 
     // Draw nodes
-    draw_circumference_polar(renderer, 0, 0, 5, white);
-    draw_circumference_polar(renderer, 2 * pi / 3, 40, 5, white);
-    draw_circumference_polar(renderer, 4 * pi / 3, 40, 5, white);
-    draw_circumference_polar(renderer, 6 * pi / 3, 40, 5, white);
-    draw_circumference_polar(renderer, pi, 80, 5, white);
+    c_trees_draw_circumference_polar(renderer, 0, 0, 5, white);
+    c_trees_draw_circumference_polar(renderer, 2 * pi / 3, 40, 5, white);
+    c_trees_draw_circumference_polar(renderer, 4 * pi / 3, 40, 5, white);
+    c_trees_draw_circumference_polar(renderer, 6 * pi / 3, 40, 5, white);
+    c_trees_draw_circumference_polar(renderer, pi, 80, 5, white);
     // Draw connectors
-    draw_line_polar(renderer, 0, 0, 2 * pi / 3, 40, white);
-    draw_line_polar(renderer, 0, 0, 4 * pi / 3, 40, white);
-    draw_line_polar(renderer, 0, 0, 6 * pi / 3, 40, white);
-    draw_line_polar(renderer, 2 * pi / 3, 40, pi, 80, white);
+    c_trees_draw_line_polar(renderer, 0, 0, 2 * pi / 3, 40, white);
+    c_trees_draw_line_polar(renderer, 0, 0, 4 * pi / 3, 40, white);
+    c_trees_draw_line_polar(renderer, 0, 0, 6 * pi / 3, 40, white);
+    c_trees_draw_line_polar(renderer, 2 * pi / 3, 40, pi, 80, white);
 }
 
 void render_tree(SDL_Renderer *renderer, Tree tree)
 {
-    draw_tree_level_based_polar(renderer, tree, 1, 0, 0, 2 * 3.1415926);
+    c_trees_draw_tree_level_based_polar(renderer, tree, 1, 0, 0, 2 * 3.1415926);
 }
 
 void render(SDL_Renderer *renderer)
@@ -123,7 +123,7 @@ void render(SDL_Renderer *renderer)
     //         {
     //             int dest_x = (int)(cos(theta) * r);
     //             int dest_y = (int)(sin(theta) * r);
-    //             draw_circumference(renderer, dest_x + WINDOW_WIDTH / 2, dest_y + WINDOW_HEIGHT / 2, 15, (RGBA){255, 0, 0, 255});
+    //             c_trees_draw_circumference(renderer, dest_x + WINDOW_WIDTH / 2, dest_y + WINDOW_HEIGHT / 2, 15, (RGBA){255, 0, 0, 255});
     //         }
     //     }
     // }
