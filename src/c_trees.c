@@ -9,7 +9,7 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_image.h>
 
-int get_num_children(Tree tree, int id);
+int get_num_children(CT_Tree tree, int id);
 
 void c_trees_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CT_RGBA color, int thick_border)
 {
@@ -70,7 +70,7 @@ void c_trees_draw_node_polar(SDL_Renderer *renderer, float theta, int r)
     c_trees_draw_circumference_polar(renderer, theta, r, 5, (CT_RGBA){255, 255, 255, 255});
 }
 
-CT_PolarCoord c_trees_draw_tree_level_based_polar(SDL_Renderer *renderer, Tree tree, int start,
+CT_PolarCoord c_trees_draw_tree_level_based_polar(SDL_Renderer *renderer, CT_Tree tree, int start,
                                                   int vertical_level,
                                                   float section_low, float section_high)
 {
@@ -116,7 +116,7 @@ CT_PolarCoord c_trees_draw_tree_level_based_polar(SDL_Renderer *renderer, Tree t
     return (CT_PolarCoord){theta, r};
 }
 
-int get_num_children(Tree tree, int id)
+int get_num_children(CT_Tree tree, int id)
 {
     int num_children = 0;
     for (int i = 0; i < tree.num_connections; i++)
