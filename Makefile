@@ -7,10 +7,10 @@ CC := gcc
 CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lm
 
 # add header files here
-HDRS := inc/type_utils.h inc/c_trees.h inc/game_loop.h examples/render.h
+HDRS := inc/c_trees.h examples/render.h
 
 # add source files here
-SRCS := src/c_trees.c src/game_loop.c examples/render.c examples/main.c 
+SRCS := src/c_trees.c examples/render.c examples/main.c 
 
 # generate names of object files
 OBJS := $(SRCS:.c=.o)

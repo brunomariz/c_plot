@@ -4,7 +4,6 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_image.h>
 #include "../inc/c_trees.h"
-#include "../inc/game_loop.h"
 #include "render.h"
 
 int event_handler(SDL_Event event);
@@ -40,7 +39,22 @@ int main(void)
         return 1;
     }
 
-    game_loop(rend, render, NULL, event_handler);
+    // animation loop
+    int close_requested = 0;
+    while (!close_requested)
+    {
+        // process events
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            close_requested = event_handler(event);
+        }
+
+        // Call render function
+        render(rend);
+
+        SDL_RenderPresent(rend);
+    }
 
     // clean up resources before exiting
     if (rend)
