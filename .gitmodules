@@ -1,0 +1,3 @@
+[submodule "c_structures"]
+	path = c_structures
+	url = git@github.com:brunomariz/c_structures.git

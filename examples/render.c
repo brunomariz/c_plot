@@ -107,9 +107,6 @@ void render_tree_adj_list(SDL_Renderer *renderer)
     // Render the tree
     c_trees_draw_tree_level_based_polar_adj_list(renderer, tree, 1, 0, 0, 2 * 3.1415926);
 
-    // Mock render tree, doesnt really depend on input
-    // render_exemple_tree(renderer);
-
     // Render random circles
     // for (float theta = 0; theta < 2 * 3.1415; theta += 0.3)
     // {
