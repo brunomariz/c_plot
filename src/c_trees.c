@@ -9,7 +9,7 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_image.h>
 
-int get_num_children(CT_Tree tree, int id);
+int get_num_children(CT_AdjListTree tree, int id);
 
 void c_trees_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CT_RGBA color, int thick_border)
 {
@@ -70,7 +70,7 @@ void c_trees_draw_node_polar(SDL_Renderer *renderer, float theta, int r)
     c_trees_draw_circumference_polar(renderer, theta, r, 5, (CT_RGBA){255, 255, 255, 255});
 }
 
-CT_PolarCoord c_trees_draw_tree_level_based_polar_adj_list(SDL_Renderer *renderer, CT_Tree tree, int start,
+CT_PolarCoord c_trees_draw_tree_level_based_polar_adj_list(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
                                                            int vertical_level,
                                                            float section_low, float section_high)
 {
@@ -116,13 +116,52 @@ CT_PolarCoord c_trees_draw_tree_level_based_polar_adj_list(SDL_Renderer *rendere
     return (CT_PolarCoord){theta, r};
 }
 
-CT_PolarCoord c_trees_draw_tree_level_based_polar_nested_obj(SDL_Renderer *renderer, CT_Tree tree, int start,
+CT_PolarCoord c_trees_draw_tree_level_based_polar_nested_obj(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
                                                              int vertical_level,
                                                              float section_low, float section_high)
 {
+    int num_children = get_num_children(tree, start);
+
+    // Calculate node position
+    float theta = (section_high - section_low) / 2 + section_low;
+    int r = vertical_level * 40;
+
+    if (num_children < 1)
+    {
+        // Draw node
+        c_trees_draw_node_polar(renderer, theta, r);
+    }
+    else
+    {
+        int child_horizontal_level = 0;
+        // Loop through children list and run draw function on children recursively
+        for (int i = 0; i < tree.num_connections; i++)
+        {
+            int parent_id = tree.adjacency_list[i * 2 + 0];
+            int child_id = tree.adjacency_list[i * 2 + 1];
+            if (parent_id == start)
+            {
+                // Calculate child parameters
+                int child_vertical_level = vertical_level + 1;
+                float child_section_low = section_low + (section_high - section_low) / num_children * child_horizontal_level;
+                float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
+                // Draw child
+                CT_PolarCoord child_coord = c_trees_draw_tree_level_based_polar_adj_list(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
+                // Draw connector to child
+                c_trees_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CT_RGBA){255, 255, 255, 255});
+
+                // Increment horizontal level
+                child_horizontal_level++;
+
+                // Draw parent
+                c_trees_draw_node_polar(renderer, theta, r);
+            }
+        }
+    }
+    return (CT_PolarCoord){theta, r};
 }
 
-int get_num_children(CT_Tree tree, int id)
+int get_num_children(CT_AdjListTree tree, int id)
 {
     int num_children = 0;
     for (int i = 0; i < tree.num_connections; i++)

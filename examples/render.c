@@ -103,7 +103,7 @@ void render_tree_adj_list(SDL_Renderer *renderer)
         {3, 8},
         {8, 9},
     };
-    CT_Tree tree = {states, (int *)adjacency_list, 9, 8};
+    CT_AdjListTree tree = {states, (int *)adjacency_list, 9, 8};
     // Render the tree
     c_trees_draw_tree_level_based_polar_adj_list(renderer, tree, 1, 0, 0, 2 * 3.1415926);
 
