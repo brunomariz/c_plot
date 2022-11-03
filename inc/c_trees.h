@@ -1,6 +1,8 @@
 #ifndef _C_TREESH_
 #define _C_TREESH_
 
+#include "../c_structures/inc/c_structures.h"
+
 #include <SDL2/SDL.h>
 
 #define CT_WINDOW_WIDTH (640)
@@ -42,7 +44,7 @@ void c_trees_draw_node_polar(SDL_Renderer *renderer, float theta, int r);
 CT_PolarCoord c_trees_draw_tree_level_based_polar_adj_list(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
                                                            int vertical_level,
                                                            float section_low, float section_high);
-CT_PolarCoord c_trees_draw_tree_level_based_polar_nested_obj(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
+CT_PolarCoord c_trees_draw_tree_level_based_polar_nested_obj(SDL_Renderer *renderer, CS_TreeNode *root_node,
                                                              int vertical_level,
                                                              float section_low, float section_high);
 

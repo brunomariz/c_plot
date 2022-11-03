@@ -51,7 +51,7 @@ int main(void)
         }
 
         // Call render function
-        render_tree_nested_obj(rend);
+        render_tree_nested_obj_random(rend);
 
         SDL_RenderPresent(rend);
     }
