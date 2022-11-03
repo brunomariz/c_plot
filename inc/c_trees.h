@@ -39,8 +39,11 @@ void c_trees_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CT_
 void c_trees_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CT_RGBA color);
 void c_trees_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CT_RGBA color);
 void c_trees_draw_node_polar(SDL_Renderer *renderer, float theta, int r);
-CT_PolarCoord c_trees_draw_tree_level_based_polar(SDL_Renderer *renderer, CT_Tree tree, int start,
-                                                  int vertical_level,
-                                                  float section_low, float section_high);
+CT_PolarCoord c_trees_draw_tree_level_based_polar_adj_list(SDL_Renderer *renderer, CT_Tree tree, int start,
+                                                           int vertical_level,
+                                                           float section_low, float section_high);
+CT_PolarCoord c_trees_draw_tree_level_based_polar_nested_obj(SDL_Renderer *renderer, CT_Tree tree, int start,
+                                                             int vertical_level,
+                                                             float section_low, float section_high);
 
 #endif

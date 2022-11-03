@@ -65,12 +65,7 @@ void render_exemple_tree(SDL_Renderer *renderer)
     c_trees_draw_line_polar(renderer, 2 * pi / 3, 40, pi, 80, white);
 }
 
-void render_tree(SDL_Renderer *renderer, CT_Tree tree)
-{
-    c_trees_draw_tree_level_based_polar(renderer, tree, 1, 0, 0, 2 * 3.1415926);
-}
-
-void render(SDL_Renderer *renderer)
+void render_tree_adj_list(SDL_Renderer *renderer)
 {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
@@ -109,7 +104,8 @@ void render(SDL_Renderer *renderer)
         {8, 9},
     };
     CT_Tree tree = {states, (int *)adjacency_list, 9, 8};
-    render_tree(renderer, tree);
+    // Render the tree
+    c_trees_draw_tree_level_based_polar_adj_list(renderer, tree, 1, 0, 0, 2 * 3.1415926);
 
     // Mock render tree, doesnt really depend on input
     // render_exemple_tree(renderer);
@@ -127,4 +123,12 @@ void render(SDL_Renderer *renderer)
     //         }
     //     }
     // }
+}
+
+void render_tree_nested_obj(SDL_Renderer *renderer)
+{
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(renderer);
+
+    render_polar_axis(renderer);
 }

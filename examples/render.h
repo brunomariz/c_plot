@@ -7,6 +7,7 @@
 void render_circles(SDL_Renderer *renderer);
 void render_polar_axis(SDL_Renderer *renderer);
 void render_exemple_tree(SDL_Renderer *renderer);
-void render(SDL_Renderer *renderer);
+void render_tree_adj_list(SDL_Renderer *renderer);
+void render_tree_nested_obj(SDL_Renderer *renderer);
 
 #endif

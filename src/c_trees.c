@@ -70,9 +70,9 @@ void c_trees_draw_node_polar(SDL_Renderer *renderer, float theta, int r)
     c_trees_draw_circumference_polar(renderer, theta, r, 5, (CT_RGBA){255, 255, 255, 255});
 }
 
-CT_PolarCoord c_trees_draw_tree_level_based_polar(SDL_Renderer *renderer, CT_Tree tree, int start,
-                                                  int vertical_level,
-                                                  float section_low, float section_high)
+CT_PolarCoord c_trees_draw_tree_level_based_polar_adj_list(SDL_Renderer *renderer, CT_Tree tree, int start,
+                                                           int vertical_level,
+                                                           float section_low, float section_high)
 {
     int num_children = get_num_children(tree, start);
 
@@ -101,7 +101,7 @@ CT_PolarCoord c_trees_draw_tree_level_based_polar(SDL_Renderer *renderer, CT_Tre
                 float child_section_low = section_low + (section_high - section_low) / num_children * child_horizontal_level;
                 float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
                 // Draw child
-                CT_PolarCoord child_coord = c_trees_draw_tree_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
+                CT_PolarCoord child_coord = c_trees_draw_tree_level_based_polar_adj_list(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
                 // Draw connector to child
                 c_trees_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CT_RGBA){255, 255, 255, 255});
 
@@ -114,6 +114,12 @@ CT_PolarCoord c_trees_draw_tree_level_based_polar(SDL_Renderer *renderer, CT_Tre
         }
     }
     return (CT_PolarCoord){theta, r};
+}
+
+CT_PolarCoord c_trees_draw_tree_level_based_polar_nested_obj(SDL_Renderer *renderer, CT_Tree tree, int start,
+                                                             int vertical_level,
+                                                             float section_low, float section_high)
+{
 }
 
 int get_num_children(CT_Tree tree, int id)

@@ -1,3 +1,5 @@
 *.o
 main
+adj_list_tree_example
+nested_obj_tree_example
 /.vscode

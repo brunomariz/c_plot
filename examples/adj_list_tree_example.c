@@ -51,7 +51,7 @@ int main(void)
         }
 
         // Call render function
-        render(rend);
+        render_tree_adj_list(rend);
 
         SDL_RenderPresent(rend);
     }
