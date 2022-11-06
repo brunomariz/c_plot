@@ -136,10 +136,9 @@ void render_tree_nested_obj(SDL_Renderer *renderer)
     CS_TreeNode *node6 = c_structures_tree_node_create(6, NULL);
     c_structures_tree_node_add_child(node1, node2);
     c_structures_tree_node_add_child(node1, node3);
-    c_structures_tree_node_add_child(node2, node4);
-    c_structures_tree_node_add_child(node2, node5);
     c_structures_tree_node_add_child(node3, node4);
     c_structures_tree_node_add_child(node3, node5);
+    c_structures_tree_node_add_child(node5, node6);
 
     c_trees_draw_tree_level_based_polar_nested_obj(renderer, node1, 0, 0, 2 * 3.1415962);
 }
