@@ -128,13 +128,12 @@ void render_tree_nested_obj(SDL_Renderer *renderer)
     SDL_RenderClear(renderer);
     render_polar_axis(renderer);
 
-    CS_TreeNode *node1 = c_structures_tree_node_create(1);
-    CS_TreeNode *node2 = c_structures_tree_node_create(2);
-    CS_TreeNode *node3 = c_structures_tree_node_create(3);
-    CS_TreeNode *node4 = c_structures_tree_node_create(4);
-    CS_TreeNode *node5 = c_structures_tree_node_create(5);
-    CS_TreeNode *node6 = c_structures_tree_node_create(6);
-    CS_TreeNode *node7 = c_structures_tree_node_create(7);
+    CS_TreeNode *node1 = c_structures_tree_node_create(1, NULL);
+    CS_TreeNode *node2 = c_structures_tree_node_create(2, NULL);
+    CS_TreeNode *node3 = c_structures_tree_node_create(3, NULL);
+    CS_TreeNode *node4 = c_structures_tree_node_create(4, NULL);
+    CS_TreeNode *node5 = c_structures_tree_node_create(5, NULL);
+    CS_TreeNode *node6 = c_structures_tree_node_create(6, NULL);
     c_structures_tree_node_add_child(node1, node2);
     c_structures_tree_node_add_child(node1, node3);
     c_structures_tree_node_add_child(node2, node4);
@@ -151,12 +150,12 @@ void render_tree_nested_obj_random(SDL_Renderer *renderer)
     SDL_RenderClear(renderer);
     render_polar_axis(renderer);
 
-    CS_TreeNode *node1 = c_structures_tree_node_create(1);
+    CS_TreeNode *node1 = c_structures_tree_node_create(1, NULL);
     CS_SList *nodes_list = c_structures_s_list_create();
     c_structures_s_list_append(nodes_list, node1);
     for (size_t i = 1; i < 50; i++)
     {
-        CS_TreeNode *node = c_structures_tree_node_create(i);
+        CS_TreeNode *node = c_structures_tree_node_create(i, NULL);
         int random_parent_index = rand() % i;
         CS_SListItem *random_parent_item = c_structures_s_list_get_item(nodes_list, random_parent_index);
         CS_TreeNode *random_parent_node = random_parent_item->data;
