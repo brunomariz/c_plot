@@ -2,10 +2,12 @@
 
 C library for drawing trees.
 
+<div style="display:flex;width:100%;">
 <img src="img/tree.png" alt="example image of tree drawn on polar coordinates grid" width="49%%" />
 <img src="img/tree2.jpeg" alt="example image of tree drawn on polar coordinates grid" width="49%" />
 <img src="img/tree3.jpeg" alt="example image of tree drawn on polar coordinates grid" width="49%" />
 <img src="img/tree4.jpeg" alt="example image of tree drawn on polar coordinates grid" width="49%" />
+</div>
 
 SDL documentation: http://wiki.libsdl.org/CategoryInit
 SDL tutorial (with setup): https://www.youtube.com/watch?v=yFLa3ln16w0&ab_channel=CS50
