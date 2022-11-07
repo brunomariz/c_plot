@@ -140,8 +140,6 @@ CT_PolarCoord c_trees_draw_tree_level_based_polar_nested_obj(SDL_Renderer *rende
         for (int i = 0; i < num_children; i++)
         {
             CS_TreeNode *child_node = child->data;
-            int parent_id = root_node->id;
-            int child_id = child_node->id;
 
             // Calculate child parameters
             int child_vertical_level = vertical_level + 1;
