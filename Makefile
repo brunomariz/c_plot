@@ -10,7 +10,7 @@ CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image 
 HDRS := inc/c_trees.h examples/example_render.h c_structures/inc/c_structures.h
 
 # define main file (used for clean function, in order to build, use make MAIN=<dir>/<file>.c)
-MAIN := examples/adj_list_tree_example.c examples/nested_obj_tree_example.c examples/tree_show_example.c
+MAIN := examples/adj_list_tree_example.c examples/nested_obj_tree_example.c
 # add source files here
 SRCS := src/c_trees.c src/render.c examples/example_render.c c_structures/src/s_list.c c_structures/src/tree.c $(MAIN) 
 
