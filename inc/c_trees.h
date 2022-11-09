@@ -48,4 +48,7 @@ CT_PolarCoord c_trees_draw_tree_level_based_polar_nested_obj(SDL_Renderer *rende
                                                              int vertical_level,
                                                              float section_low, float section_high);
 
+// === Rendering ===
+void c_trees_tree_show(CS_TreeNode *root_node);
+
 #endif

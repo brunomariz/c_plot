@@ -1,4 +1,4 @@
-#include "render.h"
+#include "example_render.h"
 
 #include <stdio.h>
 #include <math.h>
@@ -120,27 +120,6 @@ void render_tree_adj_list(SDL_Renderer *renderer)
     //         }
     //     }
     // }
-}
-
-void render_tree_nested_obj(SDL_Renderer *renderer)
-{
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(renderer);
-    render_polar_axis(renderer);
-
-    CS_TreeNode *node1 = c_structures_tree_node_create(1, NULL);
-    CS_TreeNode *node2 = c_structures_tree_node_create(2, NULL);
-    CS_TreeNode *node3 = c_structures_tree_node_create(3, NULL);
-    CS_TreeNode *node4 = c_structures_tree_node_create(4, NULL);
-    CS_TreeNode *node5 = c_structures_tree_node_create(5, NULL);
-    CS_TreeNode *node6 = c_structures_tree_node_create(6, NULL);
-    c_structures_tree_node_add_child(node1, node2);
-    c_structures_tree_node_add_child(node1, node3);
-    c_structures_tree_node_add_child(node3, node4);
-    c_structures_tree_node_add_child(node3, node5);
-    c_structures_tree_node_add_child(node5, node6);
-
-    c_trees_draw_tree_level_based_polar_nested_obj(renderer, node1, 0, 0, 2 * 3.1415962);
 }
 
 void render_tree_nested_obj_random(SDL_Renderer *renderer)

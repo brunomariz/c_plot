@@ -5,6 +5,7 @@
         "c_trees.h": "c",
         "game_loop.h": "c",
         "type_utils.h": "c",
-        "render.h": "c"
+        "render.h": "c",
+        "example_render.h": "c"
     }
 }
