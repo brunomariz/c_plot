@@ -36,12 +36,13 @@ typedef struct
     int num_connections;
 } CT_AdjListTree;
 
-CT_PolarCoord c_plot_draw_tree_level_based_polar_adj_list(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
+// Deprecated
+CT_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
                                                           int vertical_level,
                                                           float section_low, float section_high);
 
 // === Nested Object Tree
-CT_PolarCoord c_plot_draw_tree_level_based_polar_nested_obj(SDL_Renderer *renderer, CS_TreeNode *root_node,
+CT_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(SDL_Renderer *renderer, CS_TreeNode *root_node,
                                                             int vertical_level,
                                                             float section_low, float section_high);
 

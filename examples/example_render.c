@@ -85,7 +85,7 @@ void render_tree_adj_list(SDL_Renderer *renderer)
     };
     CT_AdjListTree tree = {(int *)adjacency_list, 8};
     // Render the tree
-    c_plot_draw_tree_level_based_polar_adj_list(renderer, tree, 1, 0, 0, 2 * 3.1415926);
+    c_plot_adj_list_tree_draw_level_based_polar(renderer, tree, 1, 0, 0, 2 * 3.1415926);
 
     // Render random circles
     // for (float theta = 0; theta < 2 * 3.1415; theta += 0.3)
@@ -122,5 +122,5 @@ void render_tree_nested_obj_random(SDL_Renderer *renderer)
     }
 
     SDL_Delay(500);
-    c_plot_draw_tree_level_based_polar_nested_obj(renderer, node1, 0, 0, 2 * 3.1415962);
+    c_plot_nested_obj_tree_draw_level_based_polar(renderer, node1, 0, 0, 2 * 3.1415962);
 }

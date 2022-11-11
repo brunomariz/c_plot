@@ -74,7 +74,7 @@ void c_plot_tree_show(CS_TreeNode *root_node)
         // Render axis
         C_trees_internal_render_polar_axis(renderer);
         // Render Tree
-        c_plot_draw_tree_level_based_polar_nested_obj(renderer, root_node, 0, 0, 2 * 3.1415962);
+        c_plot_nested_obj_tree_draw_level_based_polar(renderer, root_node, 0, 0, 2 * 3.1415962);
 
         SDL_RenderPresent(renderer);
     }

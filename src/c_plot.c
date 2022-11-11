@@ -70,7 +70,7 @@ void c_plot_draw_node_polar(SDL_Renderer *renderer, float theta, int r)
     c_plot_draw_circumference_polar(renderer, theta, r, 5, (CT_RGBA){255, 255, 255, 255});
 }
 
-CT_PolarCoord c_plot_draw_tree_level_based_polar_adj_list(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
+CT_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
                                                           int vertical_level,
                                                           float section_low, float section_high)
 {
@@ -101,7 +101,7 @@ CT_PolarCoord c_plot_draw_tree_level_based_polar_adj_list(SDL_Renderer *renderer
                 float child_section_low = section_low + (section_high - section_low) / num_children * child_horizontal_level;
                 float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
                 // Draw child
-                CT_PolarCoord child_coord = c_plot_draw_tree_level_based_polar_adj_list(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
+                CT_PolarCoord child_coord = c_plot_adj_list_tree_draw_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
                 // Draw connector to child
                 c_plot_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CT_RGBA){255, 255, 255, 255});
 
@@ -116,7 +116,7 @@ CT_PolarCoord c_plot_draw_tree_level_based_polar_adj_list(SDL_Renderer *renderer
     return (CT_PolarCoord){theta, r};
 }
 
-CT_PolarCoord c_plot_draw_tree_level_based_polar_nested_obj(SDL_Renderer *renderer,
+CT_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(SDL_Renderer *renderer,
                                                             CS_TreeNode *root_node,
                                                             int vertical_level,
                                                             float section_low, float section_high)
@@ -147,7 +147,7 @@ CT_PolarCoord c_plot_draw_tree_level_based_polar_nested_obj(SDL_Renderer *render
             float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
 
             // Draw child
-            CT_PolarCoord child_coord = c_plot_draw_tree_level_based_polar_nested_obj(renderer, child_node, child_vertical_level, child_section_low, child_section_high);
+            CT_PolarCoord child_coord = c_plot_nested_obj_tree_draw_level_based_polar(renderer, child_node, child_vertical_level, child_section_low, child_section_high);
             // Draw connector to child
             c_plot_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CT_RGBA){255, 255, 255, 255});
             // Draw parent
