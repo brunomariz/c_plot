@@ -42,9 +42,20 @@ CT_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer
                                                           float section_low, float section_high);
 
 // === Nested Object Tree
-CT_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(SDL_Renderer *renderer, CS_TreeNode *root_node,
-                                                            int vertical_level,
-                                                            float section_low, float section_high);
+typedef struct
+{
+    CS_SList *connection_positions;
+    CS_SList *node_positions;
+} CP_TreePositoinInfoPolar;
+
+// Deprecated
+CT_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(
+    SDL_Renderer *renderer,
+    CS_TreeNode *root_node,
+    int vertical_level,
+    float section_low, float section_high);
+
+CP_TreePositoinInfoPolar *c_plot_nested_obj_tree_get_positions_level_based_polar(CS_TreeNode *root_node);
 
 // === Rendering ===
 void c_plot_tree_show(CS_TreeNode *root_node);
