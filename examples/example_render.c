@@ -73,26 +73,6 @@ void render_tree_adj_list(SDL_Renderer *renderer)
     render_polar_axis(renderer);
 
     // Render tree based on input
-    CT_State state1 = {1};
-    CT_State state2 = {2};
-    CT_State state3 = {3};
-    CT_State state4 = {4};
-    CT_State state5 = {5};
-    CT_State state6 = {6};
-    CT_State state7 = {7};
-    CT_State state8 = {8};
-    CT_State state9 = {9};
-    CT_State states[9] = {
-        state1,
-        state2,
-        state3,
-        state4,
-        state5,
-        state6,
-        state7,
-        state8,
-        state9,
-    };
     int adjacency_list[8][2] = {
         {1, 2},
         {1, 3},
@@ -103,7 +83,7 @@ void render_tree_adj_list(SDL_Renderer *renderer)
         {3, 8},
         {8, 9},
     };
-    CT_AdjListTree tree = {states, (int *)adjacency_list, 9, 8};
+    CT_AdjListTree tree = {(int *)adjacency_list, 8};
     // Render the tree
     c_trees_draw_tree_level_based_polar_adj_list(renderer, tree, 1, 0, 0, 2 * 3.1415926);
 
