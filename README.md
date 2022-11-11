@@ -1,6 +1,8 @@
 # c_plot
 
-C library for drawing trees.
+C library for plotting figures.
+
+## Trees
 
 <div style="display:flex;width:100%;">
 <img src="img/tree.png" alt="example image of tree drawn on polar coordinates grid" width="49%%" />
