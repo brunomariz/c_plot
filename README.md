@@ -1,4 +1,4 @@
-# c_trees
+# c_plot
 
 C library for drawing trees.
 

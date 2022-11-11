@@ -2,7 +2,7 @@
 #define _RENDERH_
 
 #include <SDL2/SDL.h>
-#include "../inc/c_trees.h"
+#include "../inc/c_plot.h"
 
 void render_circles(SDL_Renderer *renderer);
 void render_polar_axis(SDL_Renderer *renderer);

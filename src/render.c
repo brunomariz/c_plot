@@ -1,4 +1,4 @@
-#include "../inc/c_trees.h"
+#include "../inc/c_plot.h"
 
 void C_trees_internal_render_polar_axis(SDL_Renderer *renderer)
 {
@@ -9,7 +9,7 @@ void C_trees_internal_render_polar_axis(SDL_Renderer *renderer)
     int center_y = CT_WINDOW_HEIGHT / 2;
     for (int i = 40; i < 440; i += 40)
     {
-        c_trees_draw_circumference(renderer, CT_WINDOW_WIDTH / 2, CT_WINDOW_HEIGHT / 2, i, (CT_RGBA){100, 100, 100, 255}, thick_border);
+        c_plot_draw_circumference(renderer, CT_WINDOW_WIDTH / 2, CT_WINDOW_HEIGHT / 2, i, (CT_RGBA){100, 100, 100, 255}, thick_border);
     }
 
     for (float theta = 0; theta < 2 * 3.14159265358979323846; theta += 3.14159265358979323846 / 20)
@@ -23,7 +23,7 @@ void C_trees_internal_render_polar_axis(SDL_Renderer *renderer)
     SDL_RenderDrawLine(renderer, 0, CT_WINDOW_HEIGHT / 2, CT_WINDOW_WIDTH, CT_WINDOW_HEIGHT / 2);
 }
 
-void c_trees_tree_show(CS_TreeNode *root_node)
+void c_plot_tree_show(CS_TreeNode *root_node)
 {
     // attempt to initialize graphics and timer system
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
@@ -74,7 +74,7 @@ void c_trees_tree_show(CS_TreeNode *root_node)
         // Render axis
         C_trees_internal_render_polar_axis(renderer);
         // Render Tree
-        c_trees_draw_tree_level_based_polar_nested_obj(renderer, root_node, 0, 0, 2 * 3.1415962);
+        c_plot_draw_tree_level_based_polar_nested_obj(renderer, root_node, 0, 0, 2 * 3.1415962);
 
         SDL_RenderPresent(renderer);
     }

@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_image.h>
-#include "../inc/c_trees.h"
+#include "../inc/c_plot.h"
 #include "example_render.h"
 
 int event_handler(SDL_Event event);

@@ -1,4 +1,4 @@
-#include "../inc/c_trees.h"
+#include "../inc/c_plot.h"
 
 int main(void)
 {
@@ -14,7 +14,7 @@ int main(void)
     c_structures_tree_node_add_child(node3, node5);
     c_structures_tree_node_add_child(node5, node6);
 
-    c_trees_tree_show(node1);
+    c_plot_tree_show(node1);
 
     return 0;
 }
