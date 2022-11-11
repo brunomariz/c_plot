@@ -9,9 +9,9 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_image.h>
 
-int get_num_children(CT_AdjListTree tree, int id);
+int get_num_children(CP_AdjListTree tree, int id);
 
-void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CT_RGBA color, int thick_border)
+void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CP_RGBA color, int thick_border)
 {
     SDL_RenderDrawPoint(renderer, x, y);
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -47,30 +47,30 @@ void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CT_R
     }
 }
 
-void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CT_RGBA color)
+void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color)
 {
     int dest_x = (int)(cos(theta) * r);
     int dest_y = -(int)(sin(theta) * r);
     int thick_border = 1;
-    c_plot_draw_circumference(renderer, dest_x + CT_WINDOW_WIDTH / 2, dest_y + CT_WINDOW_HEIGHT / 2, R, color, thick_border);
+    c_plot_draw_circumference(renderer, dest_x + CP_WINDOW_WIDTH / 2, dest_y + CP_WINDOW_HEIGHT / 2, R, color, thick_border);
 }
 
-void c_plot_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CT_RGBA color)
+void c_plot_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CP_RGBA color)
 {
-    int orig_x = (int)(cos(theta_orig) * r_orig) + CT_WINDOW_WIDTH / 2;
-    int orig_y = -(int)(sin(theta_orig) * r_orig) + CT_WINDOW_HEIGHT / 2;
-    int dest_x = (int)(cos(theta_dest) * r_dest) + CT_WINDOW_WIDTH / 2;
-    int dest_y = -(int)(sin(theta_dest) * r_dest) + CT_WINDOW_HEIGHT / 2;
+    int orig_x = (int)(cos(theta_orig) * r_orig) + CP_WINDOW_WIDTH / 2;
+    int orig_y = -(int)(sin(theta_orig) * r_orig) + CP_WINDOW_HEIGHT / 2;
+    int dest_x = (int)(cos(theta_dest) * r_dest) + CP_WINDOW_WIDTH / 2;
+    int dest_y = -(int)(sin(theta_dest) * r_dest) + CP_WINDOW_HEIGHT / 2;
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderDrawLine(renderer, orig_x, orig_y, dest_x, dest_y);
 }
 
 void c_plot_draw_node_polar(SDL_Renderer *renderer, float theta, int r)
 {
-    c_plot_draw_circumference_polar(renderer, theta, r, 5, (CT_RGBA){255, 255, 255, 255});
+    c_plot_draw_circumference_polar(renderer, theta, r, 5, (CP_RGBA){255, 255, 255, 255});
 }
 
-CT_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
+CP_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer, CP_AdjListTree tree, int start,
                                                           int vertical_level,
                                                           float section_low, float section_high)
 {
@@ -101,9 +101,9 @@ CT_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer
                 float child_section_low = section_low + (section_high - section_low) / num_children * child_horizontal_level;
                 float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
                 // Draw child
-                CT_PolarCoord child_coord = c_plot_adj_list_tree_draw_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
+                CP_PolarCoord child_coord = c_plot_adj_list_tree_draw_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
                 // Draw connector to child
-                c_plot_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CT_RGBA){255, 255, 255, 255});
+                c_plot_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CP_RGBA){255, 255, 255, 255});
 
                 // Increment horizontal level
                 child_horizontal_level++;
@@ -113,10 +113,10 @@ CT_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer
             }
         }
     }
-    return (CT_PolarCoord){theta, r};
+    return (CP_PolarCoord){theta, r};
 }
 
-CT_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(SDL_Renderer *renderer,
+CP_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(SDL_Renderer *renderer,
                                                             CS_TreeNode *root_node,
                                                             int vertical_level,
                                                             float section_low, float section_high)
@@ -147,9 +147,9 @@ CT_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(SDL_Renderer *render
             float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
 
             // Draw child
-            CT_PolarCoord child_coord = c_plot_nested_obj_tree_draw_level_based_polar(renderer, child_node, child_vertical_level, child_section_low, child_section_high);
+            CP_PolarCoord child_coord = c_plot_nested_obj_tree_draw_level_based_polar(renderer, child_node, child_vertical_level, child_section_low, child_section_high);
             // Draw connector to child
-            c_plot_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CT_RGBA){255, 255, 255, 255});
+            c_plot_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CP_RGBA){255, 255, 255, 255});
             // Draw parent
             c_plot_draw_node_polar(renderer, theta, r);
 
@@ -159,10 +159,10 @@ CT_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(SDL_Renderer *render
             child = child->next;
         }
     }
-    return (CT_PolarCoord){theta, r};
+    return (CP_PolarCoord){theta, r};
 }
 
-int get_num_children(CT_AdjListTree tree, int id)
+int get_num_children(CP_AdjListTree tree, int id)
 {
     int num_children = 0;
     for (int i = 0; i < tree.num_connections; i++)

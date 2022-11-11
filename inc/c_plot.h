@@ -5,8 +5,8 @@
 
 #include <SDL2/SDL.h>
 
-#define CT_WINDOW_WIDTH (640)
-#define CT_WINDOW_HEIGHT (480)
+#define CP_WINDOW_WIDTH (640)
+#define CP_WINDOW_HEIGHT (480)
 
 // === Util Types ===
 typedef struct
@@ -15,18 +15,18 @@ typedef struct
     Uint8 g;
     Uint8 b;
     Uint8 a;
-} CT_RGBA;
+} CP_RGBA;
 
 typedef struct
 {
     float theta;
     int r;
-} CT_PolarCoord;
+} CP_PolarCoord;
 
 // ===Drawing===
-void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CT_RGBA color, int thick_border);
-void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CT_RGBA color);
-void c_plot_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CT_RGBA color);
+void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CP_RGBA color, int thick_border);
+void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color);
+void c_plot_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CP_RGBA color);
 void c_plot_draw_node_polar(SDL_Renderer *renderer, float theta, int r);
 
 // === Adjacency List Tree
@@ -34,10 +34,10 @@ typedef struct
 {
     int *adjacency_list;
     int num_connections;
-} CT_AdjListTree;
+} CP_AdjListTree;
 
 // Deprecated
-CT_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer, CT_AdjListTree tree, int start,
+CP_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer, CP_AdjListTree tree, int start,
                                                           int vertical_level,
                                                           float section_low, float section_high);
 
@@ -49,7 +49,7 @@ typedef struct
 } CP_TreePositoinInfoPolar;
 
 // Deprecated
-CT_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(
+CP_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(
     SDL_Renderer *renderer,
     CS_TreeNode *root_node,
     int vertical_level,
