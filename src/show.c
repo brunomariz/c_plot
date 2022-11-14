@@ -35,9 +35,10 @@ void c_plot_tree_show(CS_TreeNode *root_node)
     // Get trees position info
     CP_TreePositionInfoPolar *position_info = c_plot_tree_get_positions_level_based_polar(root_node);
     // CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 2 * 3.1415926, 40);
-    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 10, 10, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 1, 40, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
     // animation loop
     int close_requested = 0;
+    int grow = 1;
     while (!close_requested)
     {
         // process events
@@ -50,15 +51,23 @@ void c_plot_tree_show(CS_TreeNode *root_node)
             }
         }
 
+        // axis->origin_position->x = cos((float)axis->d2_scale / 5.0) * 20 + CP_WINDOW_WIDTH / 2;
+        // axis->origin_position->y = sin((float)axis->d2_scale / 5.0) * 20 + CP_WINDOW_HEIGHT / 2;
+        if (axis->d2_scale > 100)
+            grow = -1;
+        if (axis->d2_scale < 20)
+            grow = 1;
+        axis->d2_scale += grow;
+        // axis->d1_scale += grow;
+
         // Clear screen
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
         // Render axis
-        // c_plot_draw_polar_axis(renderer);
         SDL_SetRenderDrawColor(renderer, 255 * 0.75, 255 * 0.75, 255 * 0.75, 255);
         c_plot_draw_axis(renderer, axis);
         // Render Tree
-        c_plot_draw_tree(renderer, position_info->node_positions, position_info->connection_positions);
+        c_plot_draw_tree(renderer, axis, position_info->node_positions, position_info->connection_positions);
 
         SDL_RenderPresent(renderer);
     }

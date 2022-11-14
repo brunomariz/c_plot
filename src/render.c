@@ -39,19 +39,21 @@ void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CP_R
 void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color)
 {
     CP_PolarCoord destination_polar = {theta, r};
-    CP_CartesianCoord destination_cartesian = c_plot_coordinate_polar_to_cartesian(&destination_polar, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+    CP_Axis *centralized_axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 1, 1, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+    CP_CartesianCoord destination_cartesian = c_plot_coordinate_polar_to_cartesian(&destination_polar, centralized_axis);
     int thick_border = 1;
     c_plot_draw_circumference(renderer, destination_cartesian.x, destination_cartesian.y, R, color, thick_border);
 }
 
 void c_plot_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CP_RGBA color)
 {
+    CP_Axis *centralized_axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 1, 1, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
     CP_PolarCoord origin_polar = {theta_orig, r_orig};
     CP_CartesianCoord origin_cartesian = c_plot_coordinate_polar_to_cartesian(&origin_polar,
-                                                                              &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+                                                                              centralized_axis);
     CP_PolarCoord destination_polar = {theta_dest, r_dest};
     CP_CartesianCoord destination_cartesian = c_plot_coordinate_polar_to_cartesian(&destination_polar,
-                                                                                   &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+                                                                                   centralized_axis);
 
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderDrawLine(renderer, origin_cartesian.x, origin_cartesian.y, destination_cartesian.x, destination_cartesian.y);
@@ -84,7 +86,7 @@ void c_plot_draw_polar_axis(SDL_Renderer *renderer)
     SDL_RenderDrawLine(renderer, 0, CP_WINDOW_HEIGHT / 2, CP_WINDOW_WIDTH, CP_WINDOW_HEIGHT / 2);
 }
 
-void c_plot_draw_tree(SDL_Renderer *renderer, CS_SList *node_positions, CS_SList *connection_positions)
+void c_plot_draw_tree(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_positions, CS_SList *connection_positions)
 {
     // Draw connections
     CS_SListItem *connection_list_item = connection_positions->head;
@@ -95,7 +97,13 @@ void c_plot_draw_tree(SDL_Renderer *renderer, CS_SList *node_positions, CS_SList
         CP_PolarCoord *origin_position = connection_position_data[0];
         CP_PolarCoord *destination_position = connection_position_data[1];
         // Draw connection
-        c_plot_draw_line_polar(renderer, origin_position->theta, origin_position->r, destination_position->theta, destination_position->r, (CP_RGBA){0, 0, 0, 255});
+        // c_plot_draw_line_polar(renderer, origin_position->theta, origin_position->r * axis->d2_scale, destination_position->theta, destination_position->r * axis->d2_scale, (CP_RGBA){0, 0, 0, 255});
+        CP_CartesianCoord origin_cartesian = c_plot_coordinate_polar_to_cartesian(origin_position, axis);
+        CP_CartesianCoord destination_cartesian = c_plot_coordinate_polar_to_cartesian(destination_position, axis);
+
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderDrawLine(renderer, origin_cartesian.x, origin_cartesian.y, destination_cartesian.x, destination_cartesian.y);
+
         // Update list item
         connection_list_item = connection_list_item->next;
     }
@@ -105,8 +113,11 @@ void c_plot_draw_tree(SDL_Renderer *renderer, CS_SList *node_positions, CS_SList
     {
         // Parse node data
         CP_PolarCoord *node_position = node_list_item->data;
+        CP_CartesianCoord node_position_cartesian = c_plot_coordinate_polar_to_cartesian(node_position, axis);
         // Draw node
-        c_plot_draw_node_polar(renderer, node_position->theta, node_position->r);
+        // c_plot_draw_node_polar(renderer, node_position->theta, node_position->r * axis->d2_scale);
+        c_plot_draw_circumference(renderer, node_position_cartesian.x, node_position_cartesian.y, 5, (CP_RGBA){0, 0, 0, 255}, 1);
+
         // Update list item
         node_list_item = node_list_item->next;
     }

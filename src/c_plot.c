@@ -70,7 +70,8 @@ CP_TreePositionInfoPolar *c_plot_tree_get_positions_level_based_polar(CS_TreeNod
 
         // Add current node position
         float current_node_theta = (current_stack_item_data->section_high - current_stack_item_data->section_low) / 2 + current_stack_item_data->section_low;
-        int current_node_r = current_stack_item_data->vertical_level * 40;
+        // int current_node_r = current_stack_item_data->vertical_level * 40;
+        int current_node_r = current_stack_item_data->vertical_level;
         c_structures_s_list_append(position_info->node_positions, c_plot_internal_node_position_create(current_node_theta, current_node_r));
         // Add connection to parent
         if (current_stack_item_data->parent_position != NULL)

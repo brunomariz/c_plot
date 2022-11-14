@@ -15,25 +15,38 @@ void c_plot_internal_draw_ticks_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
     const int tick_height = 8;
     const int tick_width = 1;
     // Draw x ticks
-    for (int i = 0; i < CP_WINDOW_WIDTH; i += axis->d1_scale)
+    SDL_Rect *tick_rect = malloc(sizeof *tick_rect);
+    for (int i = axis->origin_position->x; i < CP_WINDOW_WIDTH; i += axis->d1_scale)
     {
+        // Draw tick to the right of the origin
         CP_CartesianCoord tick_position = {i, axis->origin_position->y};
-        SDL_Rect *tick_rect = malloc(sizeof *tick_rect);
         tick_rect->h = tick_height;
         tick_rect->w = tick_width;
         tick_rect->x = tick_position.x;
         tick_rect->y = tick_position.y - tick_height / 2;
         SDL_RenderFillRect(renderer, tick_rect);
+        // Draw tick to the left of the origin
+        tick_rect->h = tick_height;
+        tick_rect->w = tick_width;
+        tick_rect->x = 2 * axis->origin_position->x - tick_position.x;
+        tick_rect->y = tick_position.y - tick_height / 2;
+        SDL_RenderFillRect(renderer, tick_rect);
     }
     // Draw y ticks
-    SDL_Rect *tick_rect = malloc(sizeof *tick_rect);
-    for (int i = 0; i < CP_WINDOW_WIDTH; i += axis->d2_scale)
+    for (int i = axis->origin_position->y; i < CP_WINDOW_WIDTH; i += axis->d2_scale)
     {
+        // Draw tick below origin
         CP_CartesianCoord tick_position = {axis->origin_position->x, i};
         tick_rect->h = tick_width;
         tick_rect->w = tick_height;
         tick_rect->x = tick_position.x - tick_height / 2;
         tick_rect->y = tick_position.y;
+        SDL_RenderFillRect(renderer, tick_rect);
+        // Draw tick above origin
+        tick_rect->h = tick_width;
+        tick_rect->w = tick_height;
+        tick_rect->x = tick_position.x - tick_height / 2;
+        tick_rect->y = 2 * axis->origin_position->y - tick_position.y;
         SDL_RenderFillRect(renderer, tick_rect);
     }
 }
@@ -44,10 +57,11 @@ void c_plot_internal_draw_ticks_polar(SDL_Renderer *renderer, CP_Axis *axis)
     const int tick_width = 1;
 
     SDL_Rect *tick_rect = malloc(sizeof *tick_rect);
-    for (int i = 0; i < CP_WINDOW_WIDTH; i += axis->d2_scale)
+    for (int i = 0; i < CP_WINDOW_WIDTH / axis->d2_scale; i++)
     {
         CP_PolarCoord position = {0, i};
-        CP_CartesianCoord position_cartesian = c_plot_coordinate_polar_to_cartesian(&position, axis->origin_position);
+        CP_CartesianCoord position_cartesian = c_plot_coordinate_polar_to_cartesian(&position, axis);
+        printf("%d %d\n", position_cartesian.x, position_cartesian.y);
         tick_rect->h = tick_height;
         tick_rect->w = tick_width;
         tick_rect->x = position_cartesian.x;
