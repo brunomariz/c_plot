@@ -32,7 +32,7 @@ CP_PolarCoord **c_plot_internal_connection_position_create(float origin_theta, i
     return connection_postions;
 }
 
-CP_TreePositionInfoPolar *c_plot_nested_obj_tree_get_positions_level_based_polar(CS_TreeNode *root_node)
+CP_TreePositionInfoPolar *c_plot_tree_get_positions_level_based_polar(CS_TreeNode *root_node)
 {
 
     // Define stack item type

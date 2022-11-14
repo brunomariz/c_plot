@@ -28,6 +28,8 @@ void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CP_R
 void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color);
 void c_plot_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CP_RGBA color);
 void c_plot_draw_node_polar(SDL_Renderer *renderer, float theta, int r);
+void c_plot_draw_polar_axis(SDL_Renderer *renderer);
+void c_plot_draw_tree(SDL_Renderer *renderer, CS_SList *node_positions, CS_SList *connection_positions);
 
 // === Adjacency List Tree
 typedef struct
@@ -55,7 +57,7 @@ CP_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(
     int vertical_level,
     float section_low, float section_high);
 
-CP_TreePositionInfoPolar *c_plot_nested_obj_tree_get_positions_level_based_polar(CS_TreeNode *root_node);
+CP_TreePositionInfoPolar *c_plot_tree_get_positions_level_based_polar(CS_TreeNode *root_node);
 
 // === Rendering ===
 void c_plot_tree_show(CS_TreeNode *root_node);

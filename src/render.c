@@ -59,7 +59,7 @@ void c_plot_draw_node_polar(SDL_Renderer *renderer, float theta, int r)
     c_plot_draw_circumference_polar(renderer, theta, r, 5, (CP_RGBA){255, 255, 255, 255});
 }
 
-void c_plot_internal_draw_polar_axis(SDL_Renderer *renderer)
+void c_plot_draw_polar_axis(SDL_Renderer *renderer)
 {
     SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
     int thick_border = 0;
@@ -82,7 +82,7 @@ void c_plot_internal_draw_polar_axis(SDL_Renderer *renderer)
     SDL_RenderDrawLine(renderer, 0, CP_WINDOW_HEIGHT / 2, CP_WINDOW_WIDTH, CP_WINDOW_HEIGHT / 2);
 }
 
-void c_plot_internal_draw_tree(SDL_Renderer *renderer, CS_SList *node_positions, CS_SList *connection_positions)
+void c_plot_draw_tree(SDL_Renderer *renderer, CS_SList *node_positions, CS_SList *connection_positions)
 {
     // Draw connections
     CS_SListItem *connection_list_item = connection_positions->head;
@@ -108,75 +108,4 @@ void c_plot_internal_draw_tree(SDL_Renderer *renderer, CS_SList *node_positions,
         // Update list item
         node_list_item = node_list_item->next;
     }
-}
-
-void c_plot_tree_show(CS_TreeNode *root_node)
-{
-    // attempt to initialize graphics and timer system
-    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0)
-    {
-        printf("error initializing SDL: %s\n", SDL_GetError());
-        return;
-    }
-
-    SDL_Window *win = SDL_CreateWindow("C_TREES",
-                                       SDL_WINDOWPOS_CENTERED,
-                                       SDL_WINDOWPOS_CENTERED,
-                                       CP_WINDOW_WIDTH, CP_WINDOW_HEIGHT, 0);
-    if (!win)
-    {
-        printf("error creating window: %s\n", SDL_GetError());
-        SDL_Quit();
-        return;
-    }
-
-    // create a renderer, which sets up the graphics hardware
-    Uint32 render_flags = SDL_RENDERER_ACCELERATED;
-    SDL_Renderer *renderer = SDL_CreateRenderer(win, -1, render_flags);
-    if (!renderer)
-    {
-        printf("error creating renderer: %s\n", SDL_GetError());
-        SDL_DestroyWindow(win);
-        SDL_Quit();
-        return;
-    }
-
-    // Get trees position info
-    CP_TreePositionInfoPolar *position_info = c_plot_nested_obj_tree_get_positions_level_based_polar(root_node);
-
-    // animation loop
-    int close_requested = 0;
-    while (!close_requested)
-    {
-        // process events
-        SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
-            if (event.type == SDL_QUIT)
-            {
-                close_requested = 1;
-            }
-        }
-
-        // Clear screen
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-        SDL_RenderClear(renderer);
-        // Render axis
-        c_plot_internal_draw_polar_axis(renderer);
-        // Render Tree
-        c_plot_internal_draw_tree(renderer, position_info->node_positions, position_info->connection_positions);
-
-        SDL_RenderPresent(renderer);
-    }
-
-    // clean up resources before exiting
-    if (renderer)
-    {
-        SDL_DestroyRenderer(renderer);
-    }
-    if (win)
-    {
-        SDL_DestroyWindow(win);
-    }
-    SDL_Quit();
 }
