@@ -6,7 +6,7 @@
 #include <SDL2/SDL.h>
 
 #define CP_WINDOW_WIDTH (640)
-#define CP_WINDOW_HEIGHT (480)
+#define CP_WINDOW_HEIGHT (640)
 
 // === Util Types ===
 typedef struct
@@ -22,6 +22,14 @@ typedef struct
     float theta;
     int r;
 } CP_PolarCoord;
+
+typedef struct
+{
+    int x;
+    int y;
+} CP_CartesianCoord;
+
+CP_CartesianCoord c_plot_coordinate_polar_to_cartesian(CP_PolarCoord *polar_coord, CP_CartesianCoord *origin_position);
 
 // ===Drawing===
 void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CP_RGBA color, int thick_border);
@@ -61,5 +69,24 @@ CP_TreePositionInfoPolar *c_plot_tree_get_positions_level_based_polar(CS_TreeNod
 
 // === Rendering ===
 void c_plot_tree_show(CS_TreeNode *root_node);
+
+// === Axis ===
+
+typedef enum
+{
+    CP_AXIS_TYPE_POLAR,
+    CP_AXIS_TYPE_CARTESIAN
+} CP_AxisType;
+
+typedef struct
+{
+    CP_AxisType type;
+    float d1_scale; // dimension 1 scale (ex: x scale, theta scale)
+    float d2_scale; // dimension 2 scale (ex: y scale, r scale)
+    CP_CartesianCoord *origin_position;
+} CP_Axis;
+
+CP_Axis *c_plot_axis_create(CP_AxisType type, float d1_scale, float d2_scale, CP_CartesianCoord *origin_position);
+void c_plot_draw_axis(SDL_Renderer *renderer, CP_Axis *axis);
 
 #endif

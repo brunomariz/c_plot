@@ -38,37 +38,39 @@ void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CP_R
 
 void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color)
 {
-    int dest_x = (int)(cos(theta) * r);
-    int dest_y = -(int)(sin(theta) * r);
+    CP_PolarCoord destination_polar = {theta, r};
+    CP_CartesianCoord destination_cartesian = c_plot_coordinate_polar_to_cartesian(&destination_polar, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
     int thick_border = 1;
-    c_plot_draw_circumference(renderer, dest_x + CP_WINDOW_WIDTH / 2, dest_y + CP_WINDOW_HEIGHT / 2, R, color, thick_border);
+    c_plot_draw_circumference(renderer, destination_cartesian.x, destination_cartesian.y, R, color, thick_border);
 }
 
 void c_plot_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CP_RGBA color)
 {
-    int orig_x = (int)(cos(theta_orig) * r_orig) + CP_WINDOW_WIDTH / 2;
-    int orig_y = -(int)(sin(theta_orig) * r_orig) + CP_WINDOW_HEIGHT / 2;
-    int dest_x = (int)(cos(theta_dest) * r_dest) + CP_WINDOW_WIDTH / 2;
-    int dest_y = -(int)(sin(theta_dest) * r_dest) + CP_WINDOW_HEIGHT / 2;
+    CP_PolarCoord origin_polar = {theta_orig, r_orig};
+    CP_CartesianCoord origin_cartesian = c_plot_coordinate_polar_to_cartesian(&origin_polar,
+                                                                              &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+    CP_PolarCoord destination_polar = {theta_dest, r_dest};
+    CP_CartesianCoord destination_cartesian = c_plot_coordinate_polar_to_cartesian(&destination_polar,
+                                                                                   &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderDrawLine(renderer, orig_x, orig_y, dest_x, dest_y);
+    SDL_RenderDrawLine(renderer, origin_cartesian.x, origin_cartesian.y, destination_cartesian.x, destination_cartesian.y);
 }
 
 void c_plot_draw_node_polar(SDL_Renderer *renderer, float theta, int r)
 {
-    c_plot_draw_circumference_polar(renderer, theta, r, 5, (CP_RGBA){255, 255, 255, 255});
+    c_plot_draw_circumference_polar(renderer, theta, r, 5, (CP_RGBA){0, 0, 0, 100});
 }
 
 void c_plot_draw_polar_axis(SDL_Renderer *renderer)
 {
-    SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
     int thick_border = 0;
 
     int center_x = CP_WINDOW_WIDTH / 2;
     int center_y = CP_WINDOW_HEIGHT / 2;
     for (int i = 40; i < 440; i += 40)
     {
-        c_plot_draw_circumference(renderer, CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2, i, (CP_RGBA){100, 100, 100, 255}, thick_border);
+        c_plot_draw_circumference(renderer, CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2, i, (CP_RGBA){220, 220, 230, 255}, thick_border);
     }
 
     for (float theta = 0; theta < 2 * 3.14159265358979323846; theta += 3.14159265358979323846 / 20)
@@ -93,7 +95,7 @@ void c_plot_draw_tree(SDL_Renderer *renderer, CS_SList *node_positions, CS_SList
         CP_PolarCoord *origin_position = connection_position_data[0];
         CP_PolarCoord *destination_position = connection_position_data[1];
         // Draw connection
-        c_plot_draw_line_polar(renderer, origin_position->theta, origin_position->r, destination_position->theta, destination_position->r, (CP_RGBA){255, 255, 255, 255});
+        c_plot_draw_line_polar(renderer, origin_position->theta, origin_position->r, destination_position->theta, destination_position->r, (CP_RGBA){0, 0, 0, 255});
         // Update list item
         connection_list_item = connection_list_item->next;
     }

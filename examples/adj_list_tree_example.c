@@ -17,7 +17,7 @@ int main(void)
         return 1;
     }
 
-    SDL_Window *win = SDL_CreateWindow("C_TREES",
+    SDL_Window *win = SDL_CreateWindow("C_PLOT",
                                        SDL_WINDOWPOS_CENTERED,
                                        SDL_WINDOWPOS_CENTERED,
                                        CP_WINDOW_WIDTH, CP_WINDOW_HEIGHT, 0);
