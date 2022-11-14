@@ -35,7 +35,7 @@ void c_plot_tree_show(CS_TreeNode *root_node)
     // Get trees position info
     CP_TreePositionInfoPolar *position_info = c_plot_tree_get_positions_level_based_polar(root_node);
     // CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 2 * 3.1415926, 40);
-    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 2, 80, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 4, 80, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
     // animation loop
     int close_requested = 0;
     int grow = 1;

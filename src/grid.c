@@ -20,7 +20,7 @@ void c_plot_internal_grid_draw_polar(SDL_Renderer *renderer, CP_Axis *axis)
         c_plot_internal_circumference_draw(renderer, axis->origin_position->x, axis->origin_position->y, i);
     }
 
-    for (float theta = 0; theta < 2 * 3.14159265358979323846; theta += 3.14159265358979323846 / axis->d1_scale)
+    for (float theta = 0; theta < 2 * 3.14159265358979323846; theta += 2 * 3.14159265358979323846 / axis->d1_scale)
     {
         CP_PolarCoord destination_coord = {theta, (CP_WINDOW_HEIGHT > CP_WINDOW_WIDTH ? CP_WINDOW_HEIGHT : CP_WINDOW_WIDTH)};
         CP_CartesianCoord destination_coord_cartesian = c_plot_coordinate_polar_to_cartesian(&destination_coord, axis);
