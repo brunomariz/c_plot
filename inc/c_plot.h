@@ -54,14 +54,13 @@ CP_CartesianCoord c_plot_coordinate_polar_to_cartesian(CP_PolarCoord *polar_coor
 
 // === Drawing ===
 void c_plot_draw_circle(SDL_Renderer *renderer, int x, int y);
-void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color);
 void c_plot_draw_tree(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_positions, CS_SList *connection_positions);
 void c_plot_draw_grid(SDL_Renderer *renderer, CP_Axis *axis);
 
 // === Nested Object Tree ===
 CP_TreePositionInfoPolar *c_plot_tree_get_positions_level_based_polar(CS_TreeNode *root_node);
 
-// === Rendering ===
+// === Displaying ===
 void c_plot_tree_show(CS_TreeNode *root_node);
 
 // === Axis ===

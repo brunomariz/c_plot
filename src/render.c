@@ -32,10 +32,6 @@ void c_plot_draw_circle(SDL_Renderer *renderer, int x, int y)
     }
 }
 
-void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color)
-{
-}
-
 void c_plot_draw_tree(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_positions, CS_SList *connection_positions)
 {
     // Draw connections
