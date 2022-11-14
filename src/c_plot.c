@@ -53,7 +53,7 @@ CP_TreePositionInfoPolar *c_plot_tree_get_positions_level_based_polar(CS_TreeNod
     // Create initial item
     CP_InternalStackItemData *current_stack_item_data = malloc(sizeof *current_stack_item_data);
     current_stack_item_data->node = root_node;
-    current_stack_item_data->section_high = 3.1415926;
+    current_stack_item_data->section_high = 2 * 3.1415926;
     current_stack_item_data->section_low = 0;
     current_stack_item_data->vertical_level = 0;
     current_stack_item_data->parent_position = NULL;
