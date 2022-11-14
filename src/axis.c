@@ -61,7 +61,6 @@ void c_plot_internal_draw_ticks_polar(SDL_Renderer *renderer, CP_Axis *axis)
     {
         CP_PolarCoord position = {0, i};
         CP_CartesianCoord position_cartesian = c_plot_coordinate_polar_to_cartesian(&position, axis);
-        printf("%d %d\n", position_cartesian.x, position_cartesian.y);
         tick_rect->h = tick_height;
         tick_rect->w = tick_width;
         tick_rect->x = position_cartesian.x - tick_width / 2;
