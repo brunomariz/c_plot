@@ -9,169 +9,95 @@
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_image.h>
 
-int get_num_children(CP_AdjListTree tree, int id);
-
-void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CP_RGBA color, int thick_border)
+CP_PolarCoord *c_plot_internal_node_position_create(float theta, int r)
 {
-    SDL_RenderDrawPoint(renderer, x, y);
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    CP_PolarCoord *position = malloc(sizeof(*position));
+    position->theta = theta;
+    position->r = r;
+    return position;
+}
 
-    int point_x, point_y,
-        inner_point_1_x, inner_point_1_y,
-        inner_point_2_x, inner_point_2_y,
-        inner_point_3_x, inner_point_3_y,
-        inner_point_4_x, inner_point_4_y;
-    for (float theta = 0.0; theta < 2 * 3.1415; theta += 0.001)
+CP_PolarCoord **c_plot_internal_connection_position_create(float origin_theta, int origin_r,
+                                                           float destination_theta, int destination_r)
+{
+    CP_PolarCoord *origin_position = malloc(sizeof *origin_position);
+    origin_position->theta = origin_theta;
+    origin_position->r = origin_r;
+    CP_PolarCoord *destination_position = malloc(sizeof *destination_position);
+    destination_position->theta = destination_theta;
+    destination_position->r = destination_r;
+    CP_PolarCoord **connection_postions = malloc(sizeof **connection_postions);
+    connection_postions[0] = origin_position;
+    connection_postions[1] = destination_position;
+    return connection_postions;
+}
+
+CP_TreePositionInfoPolar *c_plot_nested_obj_tree_get_positions_level_based_polar(CS_TreeNode *root_node)
+{
+
+    // Define stack item type
+    typedef struct
     {
-        point_x = x + (cos(theta) * r);
-        point_y = y + (sin(theta) * r);
-        // Draw main points
-        SDL_RenderDrawPoint(renderer, point_x, point_y);
+        CS_TreeNode *node;
+        CP_PolarCoord *parent_position;
+        float section_high;
+        float section_low;
+        int vertical_level;
+    } CP_InternalStackItemData;
 
-        if (thick_border)
+    // Create return struct
+    CP_TreePositionInfoPolar *position_info = malloc(sizeof *position_info);
+    position_info->node_positions = c_structures_s_list_create();
+    position_info->connection_positions = c_structures_s_list_create();
+
+    // Create initial item
+    CP_InternalStackItemData *current_stack_item_data = malloc(sizeof *current_stack_item_data);
+    current_stack_item_data->node = root_node;
+    current_stack_item_data->section_high = 3.1415926;
+    current_stack_item_data->section_low = 0;
+    current_stack_item_data->vertical_level = 0;
+    current_stack_item_data->parent_position = NULL;
+
+    // Create stack
+    CS_SList *stack = c_structures_stack_create();
+    c_structures_stack_push(stack, current_stack_item_data);
+
+    // Initialize variables
+    while (stack->length > 0)
+    {
+        // Get next item on stack
+        current_stack_item_data = c_structures_stack_pop(stack)->data;
+
+        // Add current node position
+        float current_node_theta = (current_stack_item_data->section_high - current_stack_item_data->section_low) / 2 + current_stack_item_data->section_low;
+        int current_node_r = current_stack_item_data->vertical_level * 40;
+        c_structures_s_list_append(position_info->node_positions, c_plot_internal_node_position_create(current_node_theta, current_node_r));
+        // Add connection to parent
+        if (current_stack_item_data->parent_position != NULL)
+            c_structures_s_list_append(position_info->connection_positions, c_plot_internal_connection_position_create(current_node_theta, current_node_r, current_stack_item_data->parent_position->theta, current_stack_item_data->parent_position->r));
+
+        // Add children to stack
+        CS_SListItem *child_list_item = current_stack_item_data->node->children->head;
+        for (size_t i = 0; i < current_stack_item_data->node->children->length; i++)
         {
-            // Draw inner points
-            inner_point_1_x = x + (cos(theta) * (r - 1));
-            inner_point_1_y = y + (sin(theta) * (r - 1));
-            inner_point_2_x = x + (cos(theta) * (r - 2));
-            inner_point_2_y = y + (sin(theta) * (r - 2));
-            inner_point_3_x = x + (cos(theta) * (r - 3));
-            inner_point_3_y = y + (sin(theta) * (r - 3));
-            inner_point_4_x = x + (cos(theta) * (r - 4));
-            inner_point_4_y = y + (sin(theta) * (r - 4));
-            SDL_RenderDrawPoint(renderer, inner_point_1_x, inner_point_1_y);
-            SDL_RenderDrawPoint(renderer, inner_point_2_x, inner_point_2_y);
-            SDL_RenderDrawPoint(renderer, inner_point_3_x, inner_point_3_y);
-            SDL_RenderDrawPoint(renderer, inner_point_4_x, inner_point_4_y);
+
+            // Create child data
+            CP_InternalStackItemData *new_stack_item_data = malloc(sizeof *new_stack_item_data);
+            new_stack_item_data->node = (CS_TreeNode *)child_list_item->data;
+            new_stack_item_data->section_high = current_stack_item_data->section_low + (current_stack_item_data->section_high - current_stack_item_data->section_low) / current_stack_item_data->node->children->length * (i + 1);
+            new_stack_item_data->section_low = current_stack_item_data->section_low + (current_stack_item_data->section_high - current_stack_item_data->section_low) / current_stack_item_data->node->children->length * i;
+            new_stack_item_data->vertical_level = current_stack_item_data->vertical_level + 1;
+            new_stack_item_data->parent_position = malloc(sizeof(CP_PolarCoord *));
+            new_stack_item_data->parent_position->theta = current_node_theta;
+            new_stack_item_data->parent_position->r = current_node_r;
+
+            // Add child item to stack
+            c_structures_stack_push(stack, new_stack_item_data);
+
+            // Update child node
+            child_list_item = child_list_item->next;
         }
     }
-}
 
-void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color)
-{
-    int dest_x = (int)(cos(theta) * r);
-    int dest_y = -(int)(sin(theta) * r);
-    int thick_border = 1;
-    c_plot_draw_circumference(renderer, dest_x + CP_WINDOW_WIDTH / 2, dest_y + CP_WINDOW_HEIGHT / 2, R, color, thick_border);
-}
-
-void c_plot_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CP_RGBA color)
-{
-    int orig_x = (int)(cos(theta_orig) * r_orig) + CP_WINDOW_WIDTH / 2;
-    int orig_y = -(int)(sin(theta_orig) * r_orig) + CP_WINDOW_HEIGHT / 2;
-    int dest_x = (int)(cos(theta_dest) * r_dest) + CP_WINDOW_WIDTH / 2;
-    int dest_y = -(int)(sin(theta_dest) * r_dest) + CP_WINDOW_HEIGHT / 2;
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderDrawLine(renderer, orig_x, orig_y, dest_x, dest_y);
-}
-
-void c_plot_draw_node_polar(SDL_Renderer *renderer, float theta, int r)
-{
-    c_plot_draw_circumference_polar(renderer, theta, r, 5, (CP_RGBA){255, 255, 255, 255});
-}
-
-CP_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer, CP_AdjListTree tree, int start,
-                                                          int vertical_level,
-                                                          float section_low, float section_high)
-{
-    int num_children = get_num_children(tree, start);
-
-    // Calculate node position
-    float theta = (section_high - section_low) / 2 + section_low;
-    int r = vertical_level * 40;
-
-    if (num_children < 1)
-    {
-        // Draw node
-        c_plot_draw_node_polar(renderer, theta, r);
-    }
-    else
-    {
-        int child_horizontal_level = 0;
-        // Loop through adjecancy list and look for children of start node,
-        // then run draw function on children recursively
-        for (int i = 0; i < tree.num_connections; i++)
-        {
-            int parent_id = tree.adjacency_list[i * 2 + 0];
-            int child_id = tree.adjacency_list[i * 2 + 1];
-            if (parent_id == start)
-            {
-                // Calculate child parameters
-                int child_vertical_level = vertical_level + 1;
-                float child_section_low = section_low + (section_high - section_low) / num_children * child_horizontal_level;
-                float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
-                // Draw child
-                CP_PolarCoord child_coord = c_plot_adj_list_tree_draw_level_based_polar(renderer, tree, child_id, child_vertical_level, child_section_low, child_section_high);
-                // Draw connector to child
-                c_plot_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CP_RGBA){255, 255, 255, 255});
-
-                // Increment horizontal level
-                child_horizontal_level++;
-
-                // Draw parent
-                c_plot_draw_node_polar(renderer, theta, r);
-            }
-        }
-    }
-    return (CP_PolarCoord){theta, r};
-}
-
-CP_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(SDL_Renderer *renderer,
-                                                            CS_TreeNode *root_node,
-                                                            int vertical_level,
-                                                            float section_low, float section_high)
-{
-    int num_children = root_node->children->length;
-
-    // Calculate node position
-    float theta = (section_high - section_low) / 2 + section_low;
-    int r = vertical_level * 40;
-
-    if (num_children < 1)
-    {
-        // Draw node
-        c_plot_draw_node_polar(renderer, theta, r);
-    }
-    else
-    {
-        int child_horizontal_level = 0;
-        // Loop through children list and run draw function on children recursively
-        CS_SListItem *child = root_node->children->head;
-        for (int i = 0; i < num_children; i++)
-        {
-            CS_TreeNode *child_node = child->data;
-
-            // Calculate child parameters
-            int child_vertical_level = vertical_level + 1;
-            float child_section_low = section_low + (section_high - section_low) / num_children * child_horizontal_level;
-            float child_section_high = section_low + (section_high - section_low) / num_children * (child_horizontal_level + 1);
-
-            // Draw child
-            CP_PolarCoord child_coord = c_plot_nested_obj_tree_draw_level_based_polar(renderer, child_node, child_vertical_level, child_section_low, child_section_high);
-            // Draw connector to child
-            c_plot_draw_line_polar(renderer, theta, r, child_coord.theta, child_coord.r, (CP_RGBA){255, 255, 255, 255});
-            // Draw parent
-            c_plot_draw_node_polar(renderer, theta, r);
-
-            // Increment horizontal level
-            child_horizontal_level++;
-            // Update child
-            child = child->next;
-        }
-    }
-    return (CP_PolarCoord){theta, r};
-}
-
-int get_num_children(CP_AdjListTree tree, int id)
-{
-    int num_children = 0;
-    for (int i = 0; i < tree.num_connections; i++)
-    {
-        // Test if parent is node with id
-        if (tree.adjacency_list[i * 2 + 0] == id)
-        {
-            num_children++;
-        }
-    }
-    return num_children;
+    return position_info;
 }

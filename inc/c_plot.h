@@ -46,7 +46,7 @@ typedef struct
 {
     CS_SList *connection_positions;
     CS_SList *node_positions;
-} CP_TreePositoinInfoPolar;
+} CP_TreePositionInfoPolar;
 
 // Deprecated
 CP_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(
@@ -55,7 +55,7 @@ CP_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(
     int vertical_level,
     float section_low, float section_high);
 
-CP_TreePositoinInfoPolar *c_plot_nested_obj_tree_get_positions_level_based_polar(CS_TreeNode *root_node);
+CP_TreePositionInfoPolar *c_plot_nested_obj_tree_get_positions_level_based_polar(CS_TreeNode *root_node);
 
 // === Rendering ===
 void c_plot_tree_show(CS_TreeNode *root_node);

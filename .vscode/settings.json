@@ -7,6 +7,7 @@
         "type_utils.h": "c",
         "render.h": "c",
         "example_render.h": "c",
-        "c_plot.h": "c"
+        "c_plot.h": "c",
+        "c_structures.h": "c"
     }
 }
