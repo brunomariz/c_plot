@@ -7,19 +7,19 @@ CC := gcc
 CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lm
 
 # add header files here
-HDRS := inc/c_plot.h examples/example_render.h c_structures/inc/c_structures.h
+HDRS := inc/c_plot.h c_structures/inc/c_structures.h
 
 # define main file (used for clean function, in order to build, use make MAIN=<dir>/<file>.c)
-MAIN := examples/adj_list_tree_example.c examples/nested_obj_tree_example.c
+MAIN := examples/nested_obj_tree_example.c
 # add source files here
-SRCS := $(wildcard src/*.c) examples/example_render.c $(wildcard c_structures/src/*.c) $(MAIN) 
+SRCS := $(wildcard src/*.c) $(wildcard c_structures/src/*.c) $(MAIN) 
 
 # generate names of object files
 OBJS := $(SRCS:.c=.o)
 
 # name of executable
-FILENAME := $(notdir $(MAIN))
-EXEC := $(FILENAME:.c=)
+# FILENAME := $(notdir $(MAIN))
+EXEC := main
 
 # default recipe
 all: $(EXEC)

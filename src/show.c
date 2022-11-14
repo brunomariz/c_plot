@@ -63,6 +63,9 @@ void c_plot_tree_show(CS_TreeNode *root_node)
         // Clear screen
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
         SDL_RenderClear(renderer);
+        // Render grid
+        SDL_SetRenderDrawColor(renderer, 255 * 0.50, 255 * 0.50, 255 * 0.50, 255);
+        c_plot_draw_grid(renderer, axis);
         // Render axis
         SDL_SetRenderDrawColor(renderer, 255 * 0.75, 255 * 0.75, 255 * 0.75, 255);
         c_plot_draw_axis(renderer, axis);

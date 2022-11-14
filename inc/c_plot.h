@@ -43,48 +43,28 @@ typedef struct
     CP_CartesianCoord *origin_position;
 } CP_Axis;
 
-CP_CartesianCoord c_plot_coordinate_polar_to_cartesian(CP_PolarCoord *polar_coord, CP_Axis *axis);
-// ===Drawing===
-void c_plot_draw_circumference(SDL_Renderer *renderer, int x, int y, int r, CP_RGBA color, int thick_border);
-void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color);
-void c_plot_draw_line_polar(SDL_Renderer *renderer, float theta_orig, int r_orig, float theta_dest, int r_dest, CP_RGBA color);
-void c_plot_draw_node_polar(SDL_Renderer *renderer, float theta, int r);
-void c_plot_draw_polar_axis(SDL_Renderer *renderer);
-void c_plot_draw_tree(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_positions, CS_SList *connection_positions);
-
-// === Adjacency List Tree
-typedef struct
-{
-    int *adjacency_list;
-    int num_connections;
-} CP_AdjListTree;
-
-// Deprecated
-CP_PolarCoord c_plot_adj_list_tree_draw_level_based_polar(SDL_Renderer *renderer, CP_AdjListTree tree, int start,
-                                                          int vertical_level,
-                                                          float section_low, float section_high);
-
-// === Nested Object Tree
 typedef struct
 {
     CS_SList *connection_positions;
     CS_SList *node_positions;
 } CP_TreePositionInfoPolar;
 
-// Deprecated
-CP_PolarCoord c_plot_nested_obj_tree_draw_level_based_polar(
-    SDL_Renderer *renderer,
-    CS_TreeNode *root_node,
-    int vertical_level,
-    float section_low, float section_high);
+// == Coordinates ===
+CP_CartesianCoord c_plot_coordinate_polar_to_cartesian(CP_PolarCoord *polar_coord, CP_Axis *axis);
 
+// === Drawing ===
+void c_plot_draw_circle(SDL_Renderer *renderer, int x, int y);
+void c_plot_draw_circumference_polar(SDL_Renderer *renderer, float theta, int r, int R, CP_RGBA color);
+void c_plot_draw_tree(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_positions, CS_SList *connection_positions);
+void c_plot_draw_grid(SDL_Renderer *renderer, CP_Axis *axis);
+
+// === Nested Object Tree ===
 CP_TreePositionInfoPolar *c_plot_tree_get_positions_level_based_polar(CS_TreeNode *root_node);
 
 // === Rendering ===
 void c_plot_tree_show(CS_TreeNode *root_node);
 
 // === Axis ===
-
 CP_Axis *c_plot_axis_create(CP_AxisType type, float d1_scale, float d2_scale, CP_CartesianCoord *origin_position);
 void c_plot_draw_axis(SDL_Renderer *renderer, CP_Axis *axis);
 
