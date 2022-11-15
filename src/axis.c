@@ -57,9 +57,12 @@ void c_plot_internal_draw_ticks_polar(SDL_Renderer *renderer, CP_Axis *axis)
     const int tick_width = 3;
 
     SDL_Rect *tick_rect = malloc(sizeof *tick_rect);
-    for (int i = 0; i < CP_WINDOW_WIDTH / axis->d2_scale; i++)
+    int deviation_x_axis = CP_WINDOW_WIDTH / 2 - axis->origin_position->x;
+    int slack = 2;
+    int limit_tick_r = CP_WINDOW_WIDTH / axis->d2_scale * slack + deviation_x_axis;
+    for (int r = 0; r < limit_tick_r; r++)
     {
-        CP_PolarCoord position = {0, i};
+        CP_PolarCoord position = {0, r};
         CP_CartesianCoord position_cartesian = c_plot_coordinate_polar_to_cartesian(&position, axis);
         tick_rect->h = tick_height;
         tick_rect->w = tick_width;

@@ -75,14 +75,26 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
                 {
                     // Scroll up
                     axis->d2_scale *= 1.1;
+                    if (axis->type == CP_AXIS_TYPE_CARTESIAN)
+                    {
+                        axis->d1_scale *= 1.1;
+                    }
                 }
                 else if (event.wheel.y < 0)
                 {
                     // Scroll down
                     axis->d2_scale /= 1.1;
+                    if (axis->type == CP_AXIS_TYPE_CARTESIAN)
+                    {
+                        axis->d1_scale /= 1.1;
+                    }
                     if (axis->d2_scale < 1)
                     {
                         axis->d2_scale = 1;
+                    }
+                    if (axis->d1_scale < 1)
+                    {
+                        axis->d1_scale = 1;
                     }
                 }
 
@@ -174,7 +186,8 @@ void c_plot_internal_tree_show_callback(SDL_Renderer *renderer, CP_Axis *axis, v
 
 void c_plot_tree_show(CS_TreeNode *root_node)
 {
-    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 4, 40, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_CARTESIAN, 40, 40, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+    // CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 4, 40, &(CP_CartesianCoord){0, CP_WINDOW_HEIGHT / 2});
 
     CP_TreePositionInfoPolar *position_info = c_plot_tree_get_positions_level_based_polar(root_node);
 
