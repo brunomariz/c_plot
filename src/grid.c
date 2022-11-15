@@ -8,7 +8,10 @@ void c_plot_internal_circumference_draw(SDL_Renderer *renderer, int x, int y, in
         point_x = x + (cos(theta) * r);
         point_y = y + (sin(theta) * r);
         // Draw points
-        SDL_RenderDrawPoint(renderer, point_x, point_y);
+        if (point_x > 0 && point_x < CP_WINDOW_WIDTH && point_y > 0 && point_y < CP_WINDOW_HEIGHT)
+        {
+            SDL_RenderDrawPoint(renderer, point_x, point_y);
+        }
     }
 }
 
