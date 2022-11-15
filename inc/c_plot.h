@@ -1,5 +1,5 @@
-#ifndef _C_TREESH_
-#define _C_TREESH_
+#ifndef _C_PLOT_H
+#define _C_PLOT_H
 
 #include "../c_structures/inc/c_structures.h"
 
