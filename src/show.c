@@ -32,11 +32,18 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
     }
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-    // animation loop
-    int close_requested = 0;
-    int mouse_down = 0;
-    CP_CartesianCoord previous_mouse_position = {axis->origin_position->x, axis->origin_position->y};
-    CP_CartesianCoord current_mouse_position;
+    // === Animation loop ===
+
+    // State structs
+    typedef struct mouse_info
+    {
+        char mouse_down;
+        CP_CartesianCoord previous_mouse_position;
+        CP_CartesianCoord current_mouse_position;
+    } CP_IMouseInfo;
+    CP_IMouseInfo mouse_info = {0, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}};
+
+    char close_requested = 0;
     while (!close_requested)
     {
         // process events
@@ -77,23 +84,23 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
             {
                 if (event.button.button == SDL_BUTTON_LEFT)
                 {
-                    mouse_down = 1;
+                    mouse_info.mouse_down = 1;
                 }
             }
             if (event.type == SDL_MOUSEBUTTONUP)
             {
-                mouse_down = 0;
+                mouse_info.mouse_down = 0;
             }
             if (event.type == SDL_MOUSEMOTION)
             {
-                current_mouse_position.x = event.motion.x;
-                current_mouse_position.y = event.motion.y;
-                if (mouse_down)
+                mouse_info.current_mouse_position.x = event.motion.x;
+                mouse_info.current_mouse_position.y = event.motion.y;
+                if (mouse_info.mouse_down)
                 {
-                    axis->origin_position->x += current_mouse_position.x - previous_mouse_position.x;
-                    axis->origin_position->y += current_mouse_position.y - previous_mouse_position.y;
+                    axis->origin_position->x += mouse_info.current_mouse_position.x - mouse_info.previous_mouse_position.x;
+                    axis->origin_position->y += mouse_info.current_mouse_position.y - mouse_info.previous_mouse_position.y;
                 }
-                previous_mouse_position = current_mouse_position;
+                mouse_info.previous_mouse_position = mouse_info.current_mouse_position;
             }
         }
 
