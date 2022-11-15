@@ -1,5 +1,14 @@
 #include "../inc/c_plot.h"
 
+#include <time.h>
+
+time_t c_plot_internal_get_time_ns()
+{
+    struct timespec timer;
+    clock_gettime(CLOCK_REALTIME_COARSE, &timer);
+    return timer.tv_sec * 1000000000 + timer.tv_nsec;
+}
+
 void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *renderer, CP_Axis *axis, void *args), void *args)
 {
     // attempt to initialize graphics and timer system
@@ -42,6 +51,12 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
         CP_CartesianCoord current_mouse_position;
     } CP_IMouseInfo;
     CP_IMouseInfo mouse_info = {0, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}};
+
+    time_t current_time = c_plot_internal_get_time_ns();
+    time_t previous_time = c_plot_internal_get_time_ns();
+    time_t elapsed_time = 0;
+    time_t acc_time = 0;
+    unsigned int acc_frames = 0;
 
     char close_requested = 0;
     while (!close_requested)
@@ -104,6 +119,19 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
             }
         }
 
+        current_time = c_plot_internal_get_time_ns();
+        elapsed_time = current_time - previous_time;
+        previous_time = current_time;
+        acc_frames++;
+        acc_time += elapsed_time;
+
+        if (acc_time > 1000000000)
+        {
+            acc_time = 0;
+            printf("FPS: %u\n", acc_frames);
+            acc_frames = 0;
+        }
+
         callback(renderer, axis, args);
 
         SDL_RenderPresent(renderer);
@@ -137,9 +165,10 @@ void c_plot_internal_tree_show_callback(SDL_Renderer *renderer, CP_Axis *axis, v
     SDL_SetRenderDrawColor(renderer, 255 * 0.80, 255 * 0.80, 255 * 0.80, 150);
     c_plot_draw_grid(renderer, axis);
     // Render axis
-    SDL_SetRenderDrawColor(renderer, 255 * 0.75, 255 * 0.75, 255 * 0.75, 255);
+    SDL_SetRenderDrawColor(renderer, 0 * 0.75, 0 * 0.75, 0 * 0.75, 255 * 0.10);
     c_plot_draw_axis(renderer, axis);
     // Render Tree
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     c_plot_draw_tree(renderer, axis, cast_args->position_info->node_positions, cast_args->position_info->connection_positions);
 }
 

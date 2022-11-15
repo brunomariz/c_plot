@@ -2,33 +2,24 @@
 
 void c_plot_draw_circle(SDL_Renderer *renderer, int x, int y)
 {
-    SDL_RenderDrawPoint(renderer, x, y);
-    const int r = 5;
-    int point_x, point_y,
-        inner_point_1_x, inner_point_1_y,
-        inner_point_2_x, inner_point_2_y,
-        inner_point_3_x, inner_point_3_y,
-        inner_point_4_x, inner_point_4_y;
-    for (float theta = 0.0; theta < 2 * 3.1415; theta += 0.001)
-    {
-        point_x = x + (cos(theta) * r);
-        point_y = y + (sin(theta) * r);
-        // Draw main points
-        SDL_RenderDrawPoint(renderer, point_x, point_y);
+    const int circle_radius = 5;
 
-        // Draw inner points
-        inner_point_1_x = x + (cos(theta) * (r - 1));
-        inner_point_1_y = y + (sin(theta) * (r - 1));
-        inner_point_2_x = x + (cos(theta) * (r - 2));
-        inner_point_2_y = y + (sin(theta) * (r - 2));
-        inner_point_3_x = x + (cos(theta) * (r - 3));
-        inner_point_3_y = y + (sin(theta) * (r - 3));
-        inner_point_4_x = x + (cos(theta) * (r - 4));
-        inner_point_4_y = y + (sin(theta) * (r - 4));
-        SDL_RenderDrawPoint(renderer, inner_point_1_x, inner_point_1_y);
-        SDL_RenderDrawPoint(renderer, inner_point_2_x, inner_point_2_y);
-        SDL_RenderDrawPoint(renderer, inner_point_3_x, inner_point_3_y);
-        SDL_RenderDrawPoint(renderer, inner_point_4_x, inner_point_4_y);
+    SDL_Rect rect;
+    int rect_side = 2 * circle_radius / 1.414213562 - 1;
+    rect.h = rect_side;
+    rect.w = rect_side;
+    rect.x = x - rect_side / 2;
+    rect.y = y - rect_side / 2;
+    SDL_RenderFillRect(renderer, &rect);
+
+    for (float theta = 0; theta < 2 * 3.1415926; theta += 0.5 / circle_radius)
+    {
+        for (int r = circle_radius / 1.414213562; r < circle_radius + 1; r++)
+        {
+            int point_x = x + (cos(theta) * r);
+            int point_y = y + (sin(theta) * r);
+            SDL_RenderDrawPoint(renderer, point_x, point_y);
+        }
     }
 }
 
@@ -46,7 +37,7 @@ void c_plot_draw_tree(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_posi
         CP_CartesianCoord origin_cartesian = c_plot_coordinate_polar_to_cartesian(origin_position, axis);
         CP_CartesianCoord destination_cartesian = c_plot_coordinate_polar_to_cartesian(destination_position, axis);
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        // SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderDrawLine(renderer, origin_cartesian.x, origin_cartesian.y, destination_cartesian.x, destination_cartesian.y);
 
         // Update list item
