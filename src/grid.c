@@ -66,7 +66,7 @@ void c_plot_internal_grid_draw_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
     }
 }
 
-void c_plot_draw_grid(SDL_Renderer *renderer, CP_Axis *axis)
+void c_plot_grid_draw(SDL_Renderer *renderer, CP_Axis *axis)
 {
     if (axis->type == CP_AXIS_TYPE_POLAR)
     {

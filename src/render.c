@@ -1,6 +1,6 @@
 #include "../inc/c_plot.h"
 
-void c_plot_draw_circle(SDL_Renderer *renderer, int x, int y)
+void c_plot_circle_draw(SDL_Renderer *renderer, int x, int y)
 {
     const int circle_radius = 5;
 
@@ -23,7 +23,7 @@ void c_plot_draw_circle(SDL_Renderer *renderer, int x, int y)
     }
 }
 
-void c_plot_draw_tree(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_positions, CS_SList *connection_positions)
+void c_plot_tree_draw(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_positions, CS_SList *connection_positions)
 {
     // Draw connections
     CS_SListItem *connection_list_item = connection_positions->head;
@@ -51,7 +51,7 @@ void c_plot_draw_tree(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_posi
         CP_PolarCoord *node_position = node_list_item->data;
         CP_CartesianCoord node_position_cartesian = c_plot_coordinate_polar_to_cartesian(node_position, axis);
         // Draw node
-        c_plot_draw_circle(renderer, node_position_cartesian.x, node_position_cartesian.y);
+        c_plot_circle_draw(renderer, node_position_cartesian.x, node_position_cartesian.y);
 
         // Update list item
         node_list_item = node_list_item->next;

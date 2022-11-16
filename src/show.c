@@ -49,8 +49,11 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
         char mouse_down;
         CP_CartesianCoord previous_mouse_position;
         CP_CartesianCoord current_mouse_position;
+        time_t last_move;
     } CP_IMouseInfo;
-    CP_IMouseInfo mouse_info = {0, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}};
+    CP_IMouseInfo mouse_info = {0, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, c_plot_internal_get_time_ns()};
+
+    CP_MenuInfo menu_info = {&(CP_CartesianCoord){10, 10}};
 
     time_t current_time = c_plot_internal_get_time_ns();
     time_t previous_time = c_plot_internal_get_time_ns();
@@ -175,13 +178,13 @@ void c_plot_internal_tree_show_callback(SDL_Renderer *renderer, CP_Axis *axis, v
     SDL_RenderClear(renderer);
     // Render grid
     SDL_SetRenderDrawColor(renderer, 255 * 0.80, 255 * 0.80, 255 * 0.80, 150);
-    c_plot_draw_grid(renderer, axis);
+    c_plot_grid_draw(renderer, axis);
     // Render axis
     SDL_SetRenderDrawColor(renderer, 0 * 0.75, 0 * 0.75, 0 * 0.75, 255 * 0.10);
-    c_plot_draw_axis(renderer, axis);
+    c_plot_axis_draw(renderer, axis);
     // Render Tree
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    c_plot_draw_tree(renderer, axis, cast_args->position_info->node_positions, cast_args->position_info->connection_positions);
+    c_plot_tree_draw(renderer, axis, cast_args->position_info->node_positions, cast_args->position_info->connection_positions);
 }
 
 void c_plot_tree_show(CS_TreeNode *root_node)

@@ -91,7 +91,7 @@ void c_plot_internal_draw_axis_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
     c_plot_internal_draw_ticks_cartesian(renderer, axis);
 }
 
-void c_plot_draw_axis(SDL_Renderer *renderer, CP_Axis *axis)
+void c_plot_axis_draw(SDL_Renderer *renderer, CP_Axis *axis)
 {
     if (axis->type == CP_AXIS_TYPE_POLAR)
     {
