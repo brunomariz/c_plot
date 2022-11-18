@@ -234,7 +234,7 @@ void c_plot_internal_function_show_callback(SDL_Renderer *renderer, CP_Axis *axi
 
 void c_plot_function_show(CP_Function *function)
 {
-    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_CARTESIAN, 80, 10, &(CP_CartesianCoord){CP_WINDOW_WIDTH * 0.1, CP_WINDOW_HEIGHT * 0.9});
+    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_CARTESIAN, 40, 20, &(CP_CartesianCoord){CP_WINDOW_WIDTH * 0.1, CP_WINDOW_HEIGHT * 0.9});
 
     CP_IFunctionCallbackArgs *args = malloc(sizeof *args);
     args->function = function;

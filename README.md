@@ -13,10 +13,11 @@ C library for plotting figures.
 <img src="img/tree4.jpeg" alt="example image of tree drawn on polar coordinates grid" width="49%" />
 </div> -->
 
-SDL documentation: http://wiki.libsdl.org/CategoryInit
-SDL tutorial (with setup): https://www.youtube.com/watch?v=yFLa3ln16w0&ab_channel=CS50
+## Functions
 
-# Setup (Linux)
+![Example image of functions drawn on cartesian coordinates grid](img/fn.png)
+
+## Setup (Linux)
 
 ```shell
 $ sudo apt-get update
@@ -28,9 +29,15 @@ $ sudo apt-get install libsdl2-2.0-0 libsdl2-dbg libsdl2-dev libsdl2-image-2.0-0
 > E: Unable to locate package libsdl2-image-dbg
 > it will still be possible to run the examples
 
-# Compiling and running
+## Compiling and running
 
 ```shell
 $ make
 $ ./main
 ```
+
+## References
+
+SDL documentation: http://wiki.libsdl.org/CategoryInit
+
+SDL tutorial (with setup): https://www.youtube.com/watch?v=yFLa3ln16w0&ab_channel=CS50
