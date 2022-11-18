@@ -147,7 +147,7 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
         // Execute callback render function
         callback(renderer, axis, args);
         // Render Menu
-        if (current_time - mouse_info.last_move < 2000000000)
+        if (current_time - mouse_info.last_move < 1000000000)
         {
             int clicked_reset_scale = c_plot_menu_draw(renderer, &mouse_info, &menu_info);
             if (clicked_reset_scale)
