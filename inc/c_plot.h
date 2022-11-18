@@ -29,6 +29,13 @@ typedef struct
     int y;
 } CP_CartesianCoord;
 
+typedef struct
+{
+    int *x;
+    int *y;
+    int num_points;
+} CP_Function;
+
 typedef enum
 {
     CP_AXIS_TYPE_POLAR,
@@ -68,6 +75,7 @@ CP_CartesianCoord c_plot_coordinate_polar_to_cartesian(CP_PolarCoord *polar_coor
 // === Drawing ===
 void c_plot_circle_draw(SDL_Renderer *renderer, int x, int y);
 void c_plot_tree_draw(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_positions, CS_SList *connection_positions);
+void c_plot_function_draw(SDL_Renderer *renderer, CP_Axis *axis, CP_Function *function);
 void c_plot_grid_draw(SDL_Renderer *renderer, CP_Axis *axis);
 
 // === Nested Object Tree ===
@@ -75,6 +83,7 @@ CP_TreePositionInfoPolar *c_plot_tree_get_positions_level_based_polar(CS_TreeNod
 
 // === Displaying ===
 void c_plot_tree_show(CS_TreeNode *root_node);
+void c_plot_function_show(CP_Function *function);
 
 // === Axis ===
 CP_Axis *c_plot_axis_create(CP_AxisType type, float d1_scale, float d2_scale, CP_CartesianCoord *origin_position);

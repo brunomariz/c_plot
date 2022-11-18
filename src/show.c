@@ -208,3 +208,35 @@ void c_plot_tree_show(CS_TreeNode *root_node)
     args->position_info = position_info;
     c_plot_internal_show_loop(axis, c_plot_internal_tree_show_callback, args);
 }
+
+typedef struct
+{
+    CP_Function *function;
+} CP_IFunctionCallbackArgs;
+
+void c_plot_internal_function_show_callback(SDL_Renderer *renderer, CP_Axis *axis, void *args)
+{
+    CP_IFunctionCallbackArgs *cast_args = args;
+
+    // Clear screen
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderClear(renderer);
+    // Render grid
+    SDL_SetRenderDrawColor(renderer, 255 * 0.80, 255 * 0.80, 255 * 0.80, 150);
+    c_plot_grid_draw(renderer, axis);
+    // Render axis
+    SDL_SetRenderDrawColor(renderer, 0 * 0.75, 0 * 0.75, 0 * 0.75, 255 * 0.10);
+    c_plot_axis_draw(renderer, axis);
+    // Render Tree
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    c_plot_function_draw(renderer, axis, cast_args->function);
+}
+
+void c_plot_function_show(CP_Function *function)
+{
+    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_CARTESIAN, 80, 10, &(CP_CartesianCoord){CP_WINDOW_WIDTH * 0.1, CP_WINDOW_HEIGHT * 0.9});
+
+    CP_IFunctionCallbackArgs *args = malloc(sizeof *args);
+    args->function = function;
+    c_plot_internal_show_loop(axis, c_plot_internal_function_show_callback, args);
+}

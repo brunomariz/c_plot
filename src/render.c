@@ -57,3 +57,27 @@ void c_plot_tree_draw(SDL_Renderer *renderer, CP_Axis *axis, CS_SList *node_posi
         node_list_item = node_list_item->next;
     }
 }
+
+void c_plot_function_draw(SDL_Renderer *renderer, CP_Axis *axis, CP_Function *function)
+{
+    // int x1, y1, x2, y2;
+    // for (size_t i = 0; i < function->num_points - 1; i++)
+    // {
+    //     x1 = function->x[i] * axis->d1_scale + axis->origin_position->x;
+    //     x2 = function->x[i + 1] * axis->d1_scale + axis->origin_position->x;
+    //     y1 = function->y[i] * axis->d1_scale + axis->origin_position->y;
+    //     y1 = function->y[i + 1] * axis->d1_scale + axis->origin_position->y;
+    // }
+    SDL_Point *points = malloc(sizeof(SDL_Point) * function->num_points);
+    for (size_t i = 0; i < function->num_points; i++)
+    {
+        points[i].x = function->x[i] * axis->d1_scale + axis->origin_position->x;
+        points[i].y = -function->y[i] * axis->d2_scale + axis->origin_position->y;
+    }
+    // points[function->num_points - 1] = (SDL_Point){function->x[function->num_points - 1], function->y[function->num_points - 1]};
+    // SDL_Point *points = malloc(sizeof(SDL_Point) * 3);
+    // points[0] = (SDL_Point){10, 20};
+    // points[1] = (SDL_Point){100, 200};
+    // points[2] = (SDL_Point){200, 300};
+    SDL_RenderDrawLines(renderer, points, function->num_points);
+}
