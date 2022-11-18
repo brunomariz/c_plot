@@ -44,16 +44,12 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
     // === Animation loop ===
 
     // State structs
-    typedef struct mouse_info
-    {
-        char mouse_down;
-        CP_CartesianCoord previous_mouse_position;
-        CP_CartesianCoord current_mouse_position;
-        time_t last_move;
-    } CP_IMouseInfo;
-    CP_IMouseInfo mouse_info = {0, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, c_plot_internal_get_time_ns()};
+    CP_MouseInfo mouse_info = {0, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, (CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, c_plot_internal_get_time_ns()};
 
     CP_MenuInfo menu_info = {&(CP_CartesianCoord){10, 10}};
+
+    // Save original axis
+    CP_Axis *original_axis = c_plot_axis_create(axis->type, axis->d1_scale, axis->d2_scale, &(CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y});
 
     time_t current_time = c_plot_internal_get_time_ns();
     time_t previous_time = c_plot_internal_get_time_ns();
@@ -131,6 +127,7 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
                     axis->origin_position->y += mouse_info.current_mouse_position.y - mouse_info.previous_mouse_position.y;
                 }
                 mouse_info.previous_mouse_position = mouse_info.current_mouse_position;
+                mouse_info.last_move = c_plot_internal_get_time_ns();
             }
         }
 
@@ -147,7 +144,20 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
             acc_frames = 0;
         }
 
+        // Execute callback render function
         callback(renderer, axis, args);
+        // Render Menu
+        if (current_time - mouse_info.last_move < 2000000000)
+        {
+            int clicked_reset_scale = c_plot_menu_draw(renderer, &mouse_info, &menu_info);
+            if (clicked_reset_scale)
+            {
+                axis->d1_scale = original_axis->d1_scale;
+                axis->d2_scale = original_axis->d2_scale;
+                axis->origin_position->x = original_axis->origin_position->x;
+                axis->origin_position->y = original_axis->origin_position->y;
+            }
+        }
 
         SDL_RenderPresent(renderer);
     }

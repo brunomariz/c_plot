@@ -54,6 +54,14 @@ typedef struct
     CP_CartesianCoord *position;
 } CP_MenuInfo;
 
+typedef struct
+{
+    char mouse_down;
+    CP_CartesianCoord previous_mouse_position;
+    CP_CartesianCoord current_mouse_position;
+    time_t last_move;
+} CP_MouseInfo;
+
 // == Coordinates ===
 CP_CartesianCoord c_plot_coordinate_polar_to_cartesian(CP_PolarCoord *polar_coord, CP_Axis *axis);
 
@@ -73,6 +81,6 @@ CP_Axis *c_plot_axis_create(CP_AxisType type, float d1_scale, float d2_scale, CP
 void c_plot_axis_draw(SDL_Renderer *renderer, CP_Axis *axis);
 
 // === Menu ===
-void c_plot_menu_draw(SDL_Renderer *renderer, CP_MenuInfo *menu_info);
+int c_plot_menu_draw(SDL_Renderer *renderer, CP_MouseInfo *mouse_info, CP_MenuInfo *menu_info);
 
 #endif
