@@ -4,8 +4,7 @@ C library for plotting figures.
 
 ## Trees
 
-<video src="img/demo.mp4" controls="controls" style="max-width: 730px;">
-</video>
+![Example video of tree drawn on polar coordinates grid](img/demo.gif)
 
 <!-- <div style="display:flex;width:100%;">
 <img src="img/tree.png" alt="example image of tree drawn on polar coordinates grid" width="49%%" />
