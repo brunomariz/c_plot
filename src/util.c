@@ -1,6 +1,6 @@
 #include "../inc/c_plot.h"
 
-int c_plot_util_calculate_spacing(int min_spacing, int max_spacing, float scale)
+int c_plot_util_calculate_adaptive_spacing(int min_spacing, int max_spacing, float scale)
 {
     /// @brief Calculates the minimum number of times scale should be multiplied
     ///        to be greater than min_spacing or maximum number of times scale should

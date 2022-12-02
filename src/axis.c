@@ -21,7 +21,7 @@ void c_plot_internal_draw_ticks_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
     SDL_Rect *tick_rect = malloc(sizeof *tick_rect);
     // Draw x ticks
     // calculate spacing so that the ticks dont bunch up
-    int spacing_x_ticks = c_plot_util_calculate_spacing(axis->min_spacing_x, axis->max_spacing_x, axis->d1_scale);
+    int spacing_x_ticks = c_plot_util_calculate_adaptive_spacing(axis->min_spacing_x, axis->max_spacing_x, axis->d1_scale);
     for (int i = axis->origin_position->x; (i < CP_WINDOW_WIDTH) || (2 * abs(axis->origin_position->x) - i > 0); i += spacing_x_ticks)
     {
         // Draw tick to the right of the origin
@@ -40,7 +40,7 @@ void c_plot_internal_draw_ticks_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
     }
     // Draw y ticks
     // calculate spacing so that the ticks dont bunch up
-    int spacing_y_ticks = c_plot_util_calculate_spacing(axis->min_spacing_y, axis->max_spacing_y, axis->d2_scale);
+    int spacing_y_ticks = c_plot_util_calculate_adaptive_spacing(axis->min_spacing_y, axis->max_spacing_y, axis->d2_scale);
     for (int i = axis->origin_position->y; (i < CP_WINDOW_WIDTH) || (2 * axis->origin_position->y - i > 0); i += spacing_y_ticks)
     {
         // Draw tick below origin

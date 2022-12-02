@@ -44,7 +44,7 @@ void c_plot_internal_grid_draw_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
 {
     // Draw vertical lines
     // calculate spacing so that the lines dont bunch up
-    int spacing_vertical_lines = c_plot_util_calculate_spacing(axis->min_spacing_x, axis->max_spacing_x, axis->d1_scale);
+    int spacing_vertical_lines = c_plot_util_calculate_adaptive_spacing(axis->min_spacing_x, axis->max_spacing_x, axis->d1_scale);
     for (int i = axis->origin_position->x; i < CP_WINDOW_WIDTH; i += spacing_vertical_lines)
     {
         // Draw vertical grid line to the right of the origin
@@ -58,7 +58,7 @@ void c_plot_internal_grid_draw_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
 
     // Draw horizontal lines
     // calculate spacing so that the lines dont bunch up
-    int spacing_horizontal_lines = c_plot_util_calculate_spacing(axis->min_spacing_y, axis->max_spacing_y, axis->d2_scale);
+    int spacing_horizontal_lines = c_plot_util_calculate_adaptive_spacing(axis->min_spacing_y, axis->max_spacing_y, axis->d2_scale);
     for (int i = axis->origin_position->y; i < CP_WINDOW_HEIGHT; i += spacing_horizontal_lines)
     {
         // Draw horizontal grid line above the origin
