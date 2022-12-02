@@ -48,6 +48,10 @@ typedef struct
     float d1_scale; // dimension 1 scale (ex: x scale, theta scale)
     float d2_scale; // dimension 2 scale (ex: y scale, r scale)
     CP_CartesianCoord *origin_position;
+    int min_spacing_x;
+    int min_spacing_y;
+    int max_spacing_x;
+    int max_spacing_y;
 } CP_Axis;
 
 typedef struct
@@ -86,10 +90,13 @@ void c_plot_tree_show(CS_TreeNode *root_node);
 void c_plot_function_show(CP_Function *function);
 
 // === Axis ===
-CP_Axis *c_plot_axis_create(CP_AxisType type, float d1_scale, float d2_scale, CP_CartesianCoord *origin_position);
+CP_Axis *c_plot_axis_create(CP_AxisType type, float d1_scale, float d2_scale, CP_CartesianCoord *origin_position, int min_spacing_x, int min_spacing_y, int max_spacing_x, int max_spacing_y);
 void c_plot_axis_draw(SDL_Renderer *renderer, CP_Axis *axis);
 
 // === Menu ===
 int c_plot_menu_draw(SDL_Renderer *renderer, CP_MouseInfo *mouse_info, CP_MenuInfo *menu_info);
+
+// === Util ===
+int c_plot_util_calculate_spacing(int min_spacing, int max_spacing, float scale);
 
 #endif

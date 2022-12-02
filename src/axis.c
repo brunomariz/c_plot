@@ -1,12 +1,16 @@
 #include "../inc/c_plot.h"
 
-CP_Axis *c_plot_axis_create(CP_AxisType type, float d1_scale, float d2_scale, CP_CartesianCoord *origin_position)
+CP_Axis *c_plot_axis_create(CP_AxisType type, float d1_scale, float d2_scale, CP_CartesianCoord *origin_position, int min_spacing_x, int min_spacing_y, int max_spacing_x, int max_spacing_y)
 {
     CP_Axis *axis = malloc(sizeof *axis);
     axis->type = type;
     axis->d1_scale = d1_scale;
     axis->d2_scale = d2_scale;
     axis->origin_position = origin_position;
+    axis->min_spacing_x = min_spacing_x;
+    axis->min_spacing_y = min_spacing_y;
+    axis->max_spacing_x = max_spacing_x;
+    axis->max_spacing_y = max_spacing_y;
     return axis;
 }
 
@@ -14,9 +18,11 @@ void c_plot_internal_draw_ticks_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
 {
     const int tick_height = 8;
     const int tick_width = 5;
-    // Draw x ticks
     SDL_Rect *tick_rect = malloc(sizeof *tick_rect);
-    for (int i = axis->origin_position->x; (i < CP_WINDOW_WIDTH) || (2 * abs(axis->origin_position->x) - i > 0); i += axis->d1_scale)
+    // Draw x ticks
+    // calculate spacing so that the ticks dont bunch up
+    int spacing_x_ticks = c_plot_util_calculate_spacing(axis->min_spacing_x, axis->max_spacing_x, axis->d1_scale);
+    for (int i = axis->origin_position->x; (i < CP_WINDOW_WIDTH) || (2 * abs(axis->origin_position->x) - i > 0); i += spacing_x_ticks)
     {
         // Draw tick to the right of the origin
         CP_CartesianCoord tick_position = {i, axis->origin_position->y};
@@ -33,7 +39,9 @@ void c_plot_internal_draw_ticks_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
         SDL_RenderFillRect(renderer, tick_rect);
     }
     // Draw y ticks
-    for (int i = axis->origin_position->y; (i < CP_WINDOW_WIDTH) || (2 * axis->origin_position->y - i > 0); i += axis->d2_scale)
+    // calculate spacing so that the ticks dont bunch up
+    int spacing_y_ticks = c_plot_util_calculate_spacing(axis->min_spacing_y, axis->max_spacing_y, axis->d2_scale);
+    for (int i = axis->origin_position->y; (i < CP_WINDOW_WIDTH) || (2 * axis->origin_position->y - i > 0); i += spacing_y_ticks)
     {
         // Draw tick below origin
         CP_CartesianCoord tick_position = {axis->origin_position->x, i};

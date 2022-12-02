@@ -49,7 +49,7 @@ void c_plot_internal_show_loop(CP_Axis *axis, void callback(SDL_Renderer *render
     CP_MenuInfo menu_info = {&(CP_CartesianCoord){10, 10}};
 
     // Save original axis
-    CP_Axis *original_axis = c_plot_axis_create(axis->type, axis->d1_scale, axis->d2_scale, &(CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y});
+    CP_Axis *original_axis = c_plot_axis_create(axis->type, axis->d1_scale, axis->d2_scale, &(CP_CartesianCoord){axis->origin_position->x, axis->origin_position->y}, axis->min_spacing_x, axis->min_spacing_y, axis->max_spacing_x, axis->max_spacing_y);
 
     time_t current_time = c_plot_internal_get_time_ns();
     time_t previous_time = c_plot_internal_get_time_ns();
@@ -199,7 +199,7 @@ void c_plot_internal_tree_show_callback(SDL_Renderer *renderer, CP_Axis *axis, v
 
 void c_plot_tree_show(CS_TreeNode *root_node)
 {
-    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 40, 40, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2});
+    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 40, 40, &(CP_CartesianCoord){CP_WINDOW_WIDTH / 2, CP_WINDOW_HEIGHT / 2}, 30, 30, 100, 100);
     // CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_POLAR, 4, 40, &(CP_CartesianCoord){0, CP_WINDOW_HEIGHT / 2});
 
     CP_TreePositionInfoPolar *position_info = c_plot_tree_get_positions_level_based_polar(root_node);
@@ -234,7 +234,7 @@ void c_plot_internal_function_show_callback(SDL_Renderer *renderer, CP_Axis *axi
 
 void c_plot_function_show(CP_Function *function)
 {
-    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_CARTESIAN, 40, 20, &(CP_CartesianCoord){CP_WINDOW_WIDTH * 0.1, CP_WINDOW_HEIGHT * 0.9});
+    CP_Axis *axis = c_plot_axis_create(CP_AXIS_TYPE_CARTESIAN, 40, 20, &(CP_CartesianCoord){CP_WINDOW_WIDTH * 0.1, CP_WINDOW_HEIGHT * 0.9}, 30, 30, 100, 100);
 
     CP_IFunctionCallbackArgs *args = malloc(sizeof *args);
     args->function = function;

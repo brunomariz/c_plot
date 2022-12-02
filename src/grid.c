@@ -42,26 +42,32 @@ void c_plot_internal_grid_draw_polar(SDL_Renderer *renderer, CP_Axis *axis)
 
 void c_plot_internal_grid_draw_cartesian(SDL_Renderer *renderer, CP_Axis *axis)
 {
-    for (int i = axis->origin_position->x; i < CP_WINDOW_WIDTH; i += axis->d1_scale)
+    // Draw vertical lines
+    // calculate spacing so that the lines dont bunch up
+    int spacing_vertical_lines = c_plot_util_calculate_spacing(axis->min_spacing_x, axis->max_spacing_x, axis->d1_scale);
+    for (int i = axis->origin_position->x; i < CP_WINDOW_WIDTH; i += spacing_vertical_lines)
     {
         // Draw vertical grid line to the right of the origin
         SDL_RenderDrawLine(renderer, i, 0, i, CP_WINDOW_HEIGHT);
     }
-    for (int i = axis->origin_position->x; i > 0; i -= axis->d1_scale)
+    for (int i = axis->origin_position->x; i > 0; i -= spacing_vertical_lines)
     {
         // Draw vertical grid line to the left of the origin
         SDL_RenderDrawLine(renderer, i, 0, i, CP_WINDOW_HEIGHT);
     }
 
-    for (int i = axis->origin_position->y; i < CP_WINDOW_HEIGHT; i += axis->d2_scale)
+    // Draw horizontal lines
+    // calculate spacing so that the lines dont bunch up
+    int spacing_horizontal_lines = c_plot_util_calculate_spacing(axis->min_spacing_y, axis->max_spacing_y, axis->d2_scale);
+    for (int i = axis->origin_position->y; i < CP_WINDOW_HEIGHT; i += spacing_horizontal_lines)
     {
-        // Draw vertical grid line above the origin
+        // Draw horizontal grid line above the origin
         SDL_RenderDrawLine(renderer, 0, i, CP_WINDOW_WIDTH, i);
     }
 
-    for (int i = axis->origin_position->y; i > 0; i -= axis->d2_scale)
+    for (int i = axis->origin_position->y; i > 0; i -= spacing_horizontal_lines)
     {
-        // Draw vertical grid line below origin
+        // Draw horizontal grid line below origin
         SDL_RenderDrawLine(renderer, 0, i, CP_WINDOW_WIDTH, i);
     }
 }
